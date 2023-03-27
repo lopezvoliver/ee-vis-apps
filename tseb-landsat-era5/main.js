@@ -26,5 +26,4 @@ c.controlPanel.add(c.timeSeriesControl.panel);
 c.controlPanel.add(c.dividers.divider1);
 c.controlPanel.add(c.selectBand.panel);
 ui.root.add(c.controlPanel);
-c.map.add(c.legend.panel);
 ui.root.add(c.map);
