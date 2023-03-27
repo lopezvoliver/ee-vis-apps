@@ -36,6 +36,8 @@ c.dividers.divider1 = ui.Panel();
 c.dividers.divider2 = ui.Panel();
 c.dividers.divider3 = ui.Panel();
 
+// The map
+c.map = ui.Map();   
 
 // 0. App introduction panel
 c.info = {};
