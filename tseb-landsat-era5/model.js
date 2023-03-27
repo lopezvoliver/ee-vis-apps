@@ -62,10 +62,14 @@ m.saudi = m.gaul.filter(ee.Filter.eq("ADM0_NAME", "Saudi Arabia"))
 
 // Date range allowed in the slider
 m.dataDateRange = {
-  start: Date.parse("2013-03-01T00:00:00"), 
-  end: Date.now(),
-  init_start: Date.parse("2022-03-01"),  // Initial -- move to init.js
-  init_end: Date.parse("2022-07-01")
-}; // Updated using Time series control. 
+  init_start: Date.parse("2013-03-01T00:00:00"), 
+  init_end: Date.now(),
+  start: ee.Date("2022-03-01"),
+  end:ee.Date("2022-07-01")
+}; // The start and end parameters are modified with c.timeSeriesControl.startSlider 
+// and c.timeSeriesControl.endSlider, respectively. 
+
+m.tsebImageCollection = ee.ImageCollection("projects/halo-mewa/assets/tseb-landsat-era5")
+
 
 exports.m = m;

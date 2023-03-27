@@ -35,3 +35,69 @@ ui.root.add(c.map);
  * Style *
 *******************************************************************************/
 c = style.apply(c); // Apply the styles to the components.
+
+/*******************************************************************************
+ * Behaviors *
+ *
+ * A section to define app behavior on UI activity.
+ *
+ * Guidelines:
+ * 1. At the top, define helper functions and functions that will be used as
+ *    callbacks for multiple events.
+ * 2. For single-use callbacks, define them just prior to assignment. If
+ *    multiple callbacks are required for a widget, add them consecutively to
+ *    maintain order; single-use followed by multi-use.
+ * 3. As much as possible, include callbacks that update URL parameters.
+ * 
+ * 
+ * UpdateMap when:
+ *     - either date slider changes.
+ *     - the select band slider changes.
+ ******************************************************************************/
+
+function updateMap(){
+  var imageCollection = m.tsebImageCollection
+  .filterDate(m.dataDateRange.start, m.dataDateRange.end)
+  .map(colormaps.util.scale)
+  var band_names=imageCollection.first().bandNames()
+  var meanImage=imageCollection
+  .reduce(ee.Reducer.mean())
+  var bad_band_names=meanImage.bandNames()
+  meanImage=meanImage.select(bad_band_names, band_names)
+  
+  var imageLayer = ui.Map.Layer({
+    eeObject: meanImage.select("NDVI"),
+    visParams: m.imgInfo.bands.NDVI.vis,
+    name: 'NDVI'
+  });
+  
+  c.map.layers().set(0,imageLayer)
+  
+}
+
+c.timeSeriesControl.startSlider.onChange(
+    function(ee_date_range){
+        m.dataDateRange.start = ee_date_range.start();
+        updateMap();
+    }
+)
+c.timeSeriesControl.endSlider.onChange(
+    function(ee_date_range){
+        m.dataDateRange.end = ee_date_range.end();
+        updateMap();
+    }
+)
+
+/*******************************************************************************
+ * Initialize *
+ *
+ * A section to initialize the app state on load.
+ *
+ * Guidelines:
+ * 1. At the top, define any helper functions.
+ * 2. As much as possible, use URL params to initial the state of the app.
+ ******************************************************************************/
+
+// Initialize the timeSeriesControl
+c.timeSeriesControl.startSlider.setValue(Date.parse("2022-03-01"), false)
+c.timeSeriesControl.endSlider.setValue(Date.parse("2022-07-01"), true)

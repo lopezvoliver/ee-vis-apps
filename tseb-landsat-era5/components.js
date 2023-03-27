@@ -56,8 +56,14 @@ c.info.panel = ui.Panel([
 c.timeSeriesControl = {};
 c.timeSeriesControl.title = ui.Label('Time series control');
 c.timeSeriesControl.label = ui.Label('Select start and end dates 📅');
-c.timeSeriesControl.startSlider = ui.DateSlider({period: 1});
-c.timeSeriesControl.endSlider = ui.DateSlider({period: 1});
+c.timeSeriesControl.startSlider = ui.DateSlider({period: 1, 
+    start: m.dataDateRange.init_start,
+    end: m.dataDateRange.init_end
+});
+c.timeSeriesControl.endSlider = ui.DateSlider({period: 1,
+    start: m.dataDateRange.init_start,
+    end: m.dataDateRange.init_end
+});
 c.timeSeriesControl.panel = ui.Panel([
   c.timeSeriesControl.title,
   c.timeSeriesControl.label,
