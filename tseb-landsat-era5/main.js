@@ -1,4 +1,5 @@
 // Modules
+var colormaps = require('users/oliverlopez/util:colormaps')
 var model = require('users/oliverlopez/mewa-apps:tseb-landsat-era5/model.js');
 var components = require('users/oliverlopez/mewa-apps:tseb-landsat-era5/components.js');
 var style = require('users/oliverlopez/mewa-apps:tseb-landsat-era5/style.js');
