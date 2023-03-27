@@ -1,13 +1,16 @@
+// Modules
+var model = require('users/oliverlopez/mewa-apps:tseb-landsat-era5/model.js');
+var components = require('users/oliverlopez/mewa-apps:tseb-landsat-era5/components.js');
+var style = require('users/oliverlopez/mewa-apps:tseb-landsat-era5/style.js');
+
 /*******************************************************************************
  * Model *
 *******************************************************************************/
-var model = require('users/oliverlopez/mewa-apps:tseb-landsat-era5/model.js');
 var m = model.m;
 
 /*******************************************************************************
  * Components *
 *******************************************************************************/
-var components = require('users/oliverlopez/mewa-apps:tseb-landsat-era5/components.js');
 var c =components.makec(m);
 
 /*******************************************************************************
@@ -27,3 +30,8 @@ c.controlPanel.add(c.dividers.divider1);
 c.controlPanel.add(c.selectBand.panel);
 ui.root.add(c.controlPanel);
 ui.root.add(c.map);
+
+/*******************************************************************************
+ * Style *
+*******************************************************************************/
+c = style.apply(c); // Apply the styles to the components.
