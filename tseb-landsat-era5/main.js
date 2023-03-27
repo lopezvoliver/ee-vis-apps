@@ -67,7 +67,7 @@ function updateMap(){
   meanImage=meanImage.select(bad_band_names, band_names)
   
   var imageLayer = ui.Map.Layer({
-    eeObject: meanImage.select("NDVI"),
+    eeObject: meanImage.select("NDVI").updateMask(1),
     visParams: m.imgInfo.bands.NDVI.vis,
     name: 'NDVI'
   });
