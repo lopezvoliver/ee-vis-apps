@@ -52,8 +52,8 @@ s.bigTitle={
     fontWeight: 'bold'
   };
 s.widget={
-    width: '300px',
-    padding: '0px',
+    width: '280px',
+    padding: '10px',
     margin: '10px 10px',
 }
  
