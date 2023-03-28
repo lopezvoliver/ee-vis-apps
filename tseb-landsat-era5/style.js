@@ -115,7 +115,7 @@ function apply(c){
   Object.keys(c.legends).forEach(function(key){
     c.legends[key].style().set({
     position: 'bottom-left',
-    width: '300px',
+    width: '280px',
     padding: '0px'
     });
   c.legends[key].style().set(s.opacityWhiteNone);
