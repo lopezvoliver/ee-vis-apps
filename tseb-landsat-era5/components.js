@@ -95,7 +95,7 @@ function addColorBar(band_key){
     }); 
     var labelPanel = ui.Panel({
         widgets:[leftLabel, centerLabel, rightLabel],
-        layout: ui.Panel.layout.flow("horizontal")
+        layout: ui.Panel.Layout.flow("horizontal")
     });
     c.legends.push(ui.Panel([title, colorbar, labelPanel]));
 }
