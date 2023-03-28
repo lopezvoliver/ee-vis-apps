@@ -29,8 +29,9 @@ c.controlPanel.add(c.info.panel);
 c.controlPanel.add(c.timeSeriesControl.panel);
 //c.controlPanel.add(c.dividers.divider1);
 //c.controlPanel.add(c.selectBand.panel);
+c.controlPanel.add(c.legendPanel)
 ui.root.add(c.controlPanel);
-c.map.add(c.selectBand.legend.panel) 
+//c.map.add(c.selectBand.legend.panel) 
 ui.root.add(c.map);
 
 /*******************************************************************************

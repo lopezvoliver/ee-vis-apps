@@ -19,9 +19,9 @@
  *  - Select start and end dates
  *  - Start date slider
  *  - End date slider
- * 2. Basemap control
- *  - Band selector
- *  - Colormap
+ * 2. Colorbars
+ *  - Colorbar title, image, min, middle, max values
+ *  Need to create one for each band. 
  ******************************************************************************/
 function make_components(m){
 // Define a JSON object for storing UI components.
@@ -65,38 +65,43 @@ c.timeSeriesControl.endSlider = ui.DateSlider({period: 1,
     end: m.dataDateRange.init_end
 });
 c.timeSeriesControl.panel = ui.Panel([
-  c.timeSeriesControl.title,
+  //c.timeSeriesControl.title,
   c.timeSeriesControl.label,
   c.timeSeriesControl.startSlider,
   c.timeSeriesControl.endSlider
   ]);
 
-// 2. Band selector. 
-c.selectBand = {};
-c.selectBand.label = ui.Label('Select an image to display');
-c.selectBand.selector = ui.Select(Object.keys(m.imgInfo.bands)); 
+// 2. Legends: one for each band.
+c.legends = [];
 
-c.selectBand.legend = {};
-c.selectBand.legend.title = ui.Label();
-c.selectBand.legend.colorbar = ui.Thumbnail(ee.Image.pixelLonLat().select(0));
-c.selectBand.legend.leftLabel = ui.Label('[min]');
-c.selectBand.legend.centerLabel = ui.Label();
-c.selectBand.legend.rightLabel = ui.Label('[max]');
-c.selectBand.legend.labelPanel = ui.Panel({
-  widgets: [
-    c.selectBand.legend.leftLabel,
-    c.selectBand.legend.centerLabel,
-    c.selectBand.legend.rightLabel,
-  ],
-  layout: ui.Panel.Layout.flow('horizontal')
-});
-c.selectBand.legend.panel = ui.Panel([
-  c.selectBand.legend.title,
-  c.selectBand.legend.colorbar,
-  c.selectBand.legend.labelPanel
-]);
-c.selectBand.panel = ui.Panel([c.selectBand.label, 
-    c.selectBand.selector, c.selectBand.legend.panel]);
+function addColorBar(band_key){
+    var title = ui.Label("band_key");
+    var visParams = m.imgInfo.bands[band_key].vis;
+    var min = visParams.min;
+    var max = visParams.max;
+    var leftLabel = ui.Label(min)
+    var centerLabel = ui.Label(min/2 + max/2)
+    var rightLabel = ui.Label(max)
+    var colorbar = ui.Thumbnail({
+        image:ee.Image.pixelLonLat().select(0),
+        bbox:[min,0,max,0.1],
+        dimensions:'100x10',
+        format:'png',
+        min:min,
+        max:max,
+        palette:visParams.palette
+    }); 
+    var labelPanel = ui.Panel({
+        widgets:[leftLabel, centerLabel, rightLabel],
+        layout: ui.Panel.layout.flow("horizontal")
+    });
+    c.legends.push(ui.Panel([title, colorbar, labelPanel]));
+}
+
+Object.keys(m.imgInfo.bands).map(addColorBar);
+
+c.legendPanel = ui.Panel(c.legends)
+
 return c
 }
 exports.makec = make_components;
