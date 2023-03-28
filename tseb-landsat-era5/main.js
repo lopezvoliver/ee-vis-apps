@@ -56,6 +56,14 @@ c = style.apply(c); // Apply the styles to the components.
  *     - either date slider changes.
  *     - the select band slider changes.
  ******************************************************************************/
+var removeLayer = function(name) {
+  // Look for a layer by name and remove it if found. 
+  var layers = c.map.layers()
+  var names = []
+  layers.forEach(function(l){names.push(l.getName())})
+  var index = names.indexOf(name)
+  if (index > -1) {c.map.remove(layers.get(index))} 
+}
 
 function updateMap(){
   var imageCollection = m.tsebImageCollection
@@ -68,6 +76,7 @@ function updateMap(){
   meanImage=meanImage.select(bad_band_names, band_names)
  
   function addBandToMap(band_key){
+    removeLayer(band_key)
     c.map.add(ui.Map.Layer({
       eeObject: meanImage.select(band_key).updateMask(1),
       visParams: m.imgInfo.bands[band_key].vis,
