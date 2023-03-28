@@ -51,6 +51,7 @@ m.imgInfo = {
         '#011D01', 
         '#011301']
       },
+      displayName: "NDVI",
     },
     'ETd':{
       vis:{
@@ -65,6 +66,7 @@ m.imgInfo = {
         '#698afc', 
         '#5813fc']
       },
+      displayName: "ET (mm/day)",
     }
   }
 };
