@@ -54,7 +54,7 @@ s.bigTitle={
 s.widget={
     width: '300px',
     padding: '0px',
-    margin: '0px 8px',
+    margin: '10px 10px',
 }
  
 function apply(c){
