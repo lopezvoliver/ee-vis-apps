@@ -114,3 +114,10 @@ c.timeSeriesControl.endSlider.onChange(
 // Initialize the timeSeriesControl
 c.timeSeriesControl.startSlider.setValue(Date.parse("2022-03-01"), false)
 c.timeSeriesControl.endSlider.setValue(Date.parse("2022-07-01"), true)
+// Center on Saudi Arabia:
+m.center=m.saudi.centroid()
+c.map.setCenter({
+  lon: ui.url.get('lon', m.center.coordinates().getInfo()[0]),
+  lat: ui.url.get('lat', m.center.coordinates().getInfo()[1]),
+  zoom: ui.url.get('zoom', 6)
+});
