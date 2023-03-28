@@ -52,6 +52,24 @@ m.imgInfo = {
       },
       displayName: "NDVI",
     },
+    'LST':{
+      vis:{
+        min:290,
+        max:320,
+        palette:[
+        '#000004',
+        '#1b0b41',    
+        '#4b0c6b',
+        '#781c6d',
+        '#a52c60',
+        '#cf4346',
+        '#ed6925',
+        '#fb9a07',
+        '#f8d13c',
+        '#fcffa4']
+      },
+      displayName: "Land Surface Temperature (K)",
+    },
     'ETd':{
       vis:{
         min:0,
