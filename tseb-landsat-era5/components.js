@@ -84,12 +84,14 @@ function addColorBar(band_key){
     var rightLabel = ui.Label(max)
     var colorbar = ui.Thumbnail({
         image:ee.Image.pixelLonLat().select(0),
-        bbox:[min,0,max,0.1],
-        dimensions:'100x10',
-        format:'png',
-        min:min,
-        max:max,
-        palette:visParams.palette
+        params: {
+            bbox:[min,0,max,0.1],
+            dimensions:'100x10',
+            format:'png',
+            min:min,
+            max:max,
+            palette:visParams.palette
+        }
     }); 
     var labelPanel = ui.Panel({
         widgets:[leftLabel, centerLabel, rightLabel],
