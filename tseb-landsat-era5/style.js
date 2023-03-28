@@ -68,41 +68,11 @@ function apply(c){
     padding: '0px'
   });
  
-  // Legend
-  c.selectBand.legend.title.style().set({
-    fontWeight: 'bold',
-    fontSize: '12px',
-    color: '383838'
+  // Loop through legends to apply styles
+  Object.keys(c.legends).forEach(function(key){
+    print(c.legends[key]) // Testing.. 
   });
-  c.selectBand.legend.title.style().set(s.opacityWhiteNone);
-  c.selectBand.legend.colorbar.style().set({
-    stretch: 'horizontal',
-    margin: '0px 8px',
-    maxHeight: '20px'
-  });
-  c.selectBand.legend.leftLabel.style().set({
-    margin: '4px 8px',
-    fontSize: '12px'
-  });
-  c.selectBand.legend.leftLabel.style().set(s.opacityWhiteNone);
-  c.selectBand.legend.centerLabel.style().set({
-    margin: '4px 8px',
-    fontSize: '12px',
-    textAlign: 'center',
-    stretch: 'horizontal'
-  });
-  c.selectBand.legend.centerLabel.style().set(s.opacityWhiteNone);
-  c.selectBand.legend.rightLabel.style().set({
-    margin: '4px 8px',
-    fontSize: '12px'
-  });
-  c.selectBand.legend.rightLabel.style().set(s.opacityWhiteNone);
-  c.selectBand.legend.panel.style().set({
-    position: 'bottom-left',
-    width: '200px',
-    padding: '0px'});
-  c.selectBand.legend.panel.style().set(s.opacityWhiteMed);
-  c.selectBand.legend.labelPanel.style().set(s.opacityWhiteNone);
+
   
   // Loop through setting divider style.
   Object.keys(c.dividers).forEach(function(key) {
