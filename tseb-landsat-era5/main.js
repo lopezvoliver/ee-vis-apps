@@ -77,11 +77,11 @@ function updateMap(){
   meanImage=meanImage.select(bad_band_names, band_names)
  
   function addBandToMap(band_key){
-    removeLayer(band_key)
+    removeLayer(m.imgInfo.bands[band_key].displayName)
     c.map.add(ui.Map.Layer({
       eeObject: meanImage.select(band_key).updateMask(1),
       visParams: m.imgInfo.bands[band_key].vis,
-      name: band_key
+      name: m.imgInfo.bands[band_key].displayName
     }));
   }
   Object.keys(m.imgInfo.bands).map(addBandToMap)
