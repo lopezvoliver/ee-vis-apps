@@ -68,9 +68,45 @@ function apply(c){
     padding: '0px'
   });
  
-  // Loop through legends to apply styles
+  // Loop through legends components to apply styles
+  Object.keys(c.legendTitles).forEach(function(key){
+    c.legendTitles[key].style().set({
+    fontWeight: 'bold',
+    fontSize: '12px',
+    color: '383838'
+  });
+  c.legendTitles[key].style().set(s.opacityWhiteNone);
+  });
+  Object.keys(c.legendLabels).forEach(function(key){
+    c.legendLabels[key].style().set({
+    margin: '4px 8px',
+    fontSize: '12px'
+  });
+  c.legendLabels[key].style().set(s.opacityWhiteNone);
+  });
+  Object.keys(c.legendCenterLabels).forEach(function(key){
+    c.legendCenterLabels[key].style().set({
+    margin: '4px 8px',
+    fontSize: '12px',
+    textAlign: 'center',
+    stretch: 'horizontal'
+  });
+  c.legendCenterLabels[key].style().set(s.opacityWhiteNone);
+  });
+  Object.keys(c.legendColorBars).forEach(function(key){
+    c.legendColorBars[key].style().set({
+    stretch: 'horizontal',
+    margin: '0px 8px',
+    maxHeight: '20px'
+    })
+  });
   Object.keys(c.legends).forEach(function(key){
-    print(c.legends[key]) // Testing.. 
+    c.legends[key].style().set({
+    position: 'bottom-left',
+    width: '200px',
+    padding: '0px'
+    });
+  c.legends[key].style().set(s.opacityWhiteNone);
   });
 
   

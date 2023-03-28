@@ -73,15 +73,23 @@ c.timeSeriesControl.panel = ui.Panel([
 
 // 2. Legends: one for each band.
 c.legends = [];
+c.legendTitles = [];
+c.legendLabels = []; // Left and right labels.
+c.legendCenterLabels=[];
+c.legendColorBars=[];
 
 function addColorBar(band_key){
-    var title = ui.Label("band_key");
+    var title = ui.Label(band_key);
+    c.legendTitles.push(title);
     var visParams = m.imgInfo.bands[band_key].vis;
     var min = visParams.min;
     var max = visParams.max;
     var leftLabel = ui.Label(min)
+    c.legendLabels.push(leftLabel)
     var centerLabel = ui.Label(min/2 + max/2)
+    c.legendCenterLabels.push(centerLabel)
     var rightLabel = ui.Label(max)
+    c.legendLabels.push(rightLabel)
     var colorbar = ui.Thumbnail({
         image:ee.Image.pixelLonLat().select(0),
         params: {
@@ -93,6 +101,7 @@ function addColorBar(band_key){
             palette:visParams.palette
         }
     }); 
+    c.legendColorBars.push(colorbar)
     var labelPanel = ui.Panel({
         widgets:[leftLabel, centerLabel, rightLabel],
         layout: ui.Panel.Layout.flow("horizontal")
