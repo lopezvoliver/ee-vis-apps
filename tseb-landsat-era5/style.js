@@ -51,6 +51,10 @@ s.bigTitle={
     fontSize: '20px',
     fontWeight: 'bold'
   };
+s.widget={
+    width: '300px',
+    padding: '0px'
+}
  
 function apply(c){
   /*
@@ -62,8 +66,11 @@ function apply(c){
 
 
   c.timeSeriesControl.title.style().set(s.bigTitle);
+  c.timeSeriesControl.label.style().set(s.widgetTitle)
+  c.timeSeriesControl.startSlider.style().set(s.widget);
+  c.timeSeriesControl.endSlider.style().set(s.widget);
   c.timeSeriesControl.panel.style().set({
-    width: '200px',
+    width: '300px',
     padding: '0px'
   })
   
@@ -107,7 +114,7 @@ function apply(c){
   Object.keys(c.legends).forEach(function(key){
     c.legends[key].style().set({
     position: 'bottom-left',
-    width: '200px',
+    width: '300px',
     padding: '0px'
     });
   c.legends[key].style().set(s.opacityWhiteNone);

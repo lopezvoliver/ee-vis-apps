@@ -65,7 +65,6 @@ c.timeSeriesControl.endSlider = ui.DateSlider({period: 1,
     end: m.dataDateRange.init_end
 });
 c.timeSeriesControl.panel = ui.Panel([
-  //c.timeSeriesControl.title,
   c.timeSeriesControl.label,
   c.timeSeriesControl.startSlider,
   c.timeSeriesControl.endSlider
