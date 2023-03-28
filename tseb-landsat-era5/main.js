@@ -27,9 +27,10 @@ var c =components.makec(m);
 ui.root.clear();
 c.controlPanel.add(c.info.panel);
 c.controlPanel.add(c.timeSeriesControl.panel);
-c.controlPanel.add(c.dividers.divider1);
-c.controlPanel.add(c.selectBand.panel);
+//c.controlPanel.add(c.dividers.divider1);
+//c.controlPanel.add(c.selectBand.panel);
 ui.root.add(c.controlPanel);
+c.map.add(c.selectBand.legend.panel) 
 ui.root.add(c.map);
 
 /*******************************************************************************
@@ -65,14 +66,15 @@ function updateMap(){
   .reduce(ee.Reducer.mean())
   var bad_band_names=meanImage.bandNames()
   meanImage=meanImage.select(bad_band_names, band_names)
-  
-  var imageLayer = ui.Map.Layer({
-    eeObject: meanImage.select("NDVI").updateMask(1),
-    visParams: m.imgInfo.bands.NDVI.vis,
-    name: 'NDVI'
-  });
-  
-  c.map.layers().set(0,imageLayer)
+ 
+  function addBandToMap(band_key){
+    c.map.add(ui.Map.Layer({
+      eeObject: meanImage.select(band_key).updateMask(1),
+      visParams: m.imgInfo.bands[band_key].vis,
+      name: band_key
+    }));
+  }
+  Object.keys(m.imgInfo.bands).map(addBandToMap)
   
 }
 
