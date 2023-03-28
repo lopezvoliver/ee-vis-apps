@@ -53,7 +53,8 @@ s.bigTitle={
   };
 s.widget={
     width: '300px',
-    padding: '0px'
+    padding: '0px',
+    margin: '0px 8px',
 }
  
 function apply(c){
