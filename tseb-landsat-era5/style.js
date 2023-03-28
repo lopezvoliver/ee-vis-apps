@@ -62,7 +62,7 @@ function apply(c){
 
 
   c.timeSeriesControl.title.style().set(s.bigTitle);
-  c.timeSeriesControl.panel.set({
+  c.timeSeriesControl.panel.style().set({
     width: '200px',
     padding: '0px'
   })
