@@ -14,20 +14,19 @@
 // Define a JSON object for storing the data model.
 var m = {};
 
-/*
-//et:[
-    '#86340c', 
-    '#c49e0d', 
-    '#f3fe34', 
-    '#aefeae', 
-    '#11f9fd', 
-    '#698afc', 
-    '#5813fc']
-*/
-
 // Organize bands to visualize for each image
 m.imgInfo = {
   bands:{
+    'albedo':{
+      vis:{
+        min:0,
+        max:0.5,
+        palette:[
+        '#000000',
+        '#ffffff']
+      },
+      displayName: "Albedo",
+    },
     'NDVI':{
       vis:{
         min:0,
