@@ -155,7 +155,7 @@ m.saudi = m.gaul.filter(ee.Filter.eq("ADM0_NAME", "Saudi Arabia"))
 
 // Date range allowed in the slider
 m.dataDateRange = {
-  init_start: Date.parse("2013-03-01T00:00:00"), 
+  init_start: Date.parse("2013-03-18T00:00:00"), 
   init_end: Date.now(),
   start: ee.Date("2022-03-01"),
   end:ee.Date("2022-07-01")
