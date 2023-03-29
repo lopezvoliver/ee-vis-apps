@@ -78,7 +78,7 @@ c.legendCenterLabels=[];
 c.legendColorBars=[];
 
 function addColorBar(band_key){
-    bandInfo = m.imgInfo.bands[band_key]
+    var bandInfo = m.imgInfo.bands[band_key];
     if(bandInfo.showColorBar){
         var title = ui.Label(bandInfo.colorBarName);
         c.legendTitles.push(title);
