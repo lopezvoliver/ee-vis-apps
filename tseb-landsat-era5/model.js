@@ -112,7 +112,7 @@ m.imgInfo = {
       },
     },
     'LEc':{
-      displayName: "Canopy Latent heat flux (W/m²)",
+      displayName: "Canopy Latent heat flux",
       showColorBar: true,
       colorBarName: "Latent heat flux (W/m²)",
       vis:{
@@ -129,8 +129,8 @@ m.imgInfo = {
       },
     },
     'LEs':{
-      displayName: "Soil latent heat flux (W/m²)",
-      showColorBar: false,
+      displayName: "Soil latent heat flux",
+      showColorBar: false,  // Shared colorbar with LEc
       colorBarName: "Latent heat flux (W/m²)",
       vis:{
         min:0,
