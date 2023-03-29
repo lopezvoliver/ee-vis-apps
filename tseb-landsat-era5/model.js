@@ -36,7 +36,7 @@ m.imgInfo = {
       vis:{
         min:0,
         max:1,
-        palette:[,
+        palette:[
         '#CE7E45', 
         '#DF923D', 
         '#F1B555', 
