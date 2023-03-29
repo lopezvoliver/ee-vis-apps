@@ -159,8 +159,8 @@ m.dataDateRange = {
   init_end: Date.now(),
   start: ee.Date("2022-03-01"),
   end:ee.Date("2022-07-01")
-}; // The start and end parameters are modified with c.timeSeriesControl.startSlider 
-// and c.timeSeriesControl.endSlider, respectively. 
+}; // The start and end parameters are modified with c.timeControl.startSlider 
+// and c.timeControl.endSlider, respectively. 
 
 m.tsebImageCollection = ee.ImageCollection("projects/halo-mewa/assets/tseb-landsat-era5")
 

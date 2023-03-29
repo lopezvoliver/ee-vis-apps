@@ -66,11 +66,11 @@ function apply(c){
   c.info.aboutLabel.style().set(s.aboutText);
 
 
-  c.timeSeriesControl.title.style().set(s.bigTitle);
-  c.timeSeriesControl.label.style().set(s.widgetTitle)
-  c.timeSeriesControl.startSlider.style().set(s.widget);
-  c.timeSeriesControl.endSlider.style().set(s.widget);
-  c.timeSeriesControl.panel.style().set({
+  c.timeControl.title.style().set(s.bigTitle);
+  c.timeControl.label.style().set(s.widgetTitle)
+  c.timeControl.startSlider.style().set(s.widget);
+  c.timeControl.endSlider.style().set(s.widget);
+  c.timeControl.panel.style().set({
     width: '300px',
     padding: '0px'
   })

@@ -26,7 +26,7 @@ var c =components.makec(m);
  ******************************************************************************/
 ui.root.clear();
 c.controlPanel.add(c.info.panel);
-c.controlPanel.add(c.timeSeriesControl.panel);
+c.controlPanel.add(c.timeControl.panel);
 //c.controlPanel.add(c.dividers.divider1);
 //c.controlPanel.add(c.selectBand.panel);
 c.controlPanel.add(c.legendPanel)
@@ -88,13 +88,13 @@ function updateMap(){
   
 }
 
-c.timeSeriesControl.startSlider.onChange(
+c.timeControl.startSlider.onChange(
     function(ee_date_range){
         m.dataDateRange.start = ee_date_range.start();
         updateMap();
     }
 )
-c.timeSeriesControl.endSlider.onChange(
+c.timeControl.endSlider.onChange(
     function(ee_date_range){
         m.dataDateRange.end = ee_date_range.end();
         updateMap();
@@ -110,10 +110,15 @@ c.timeSeriesControl.endSlider.onChange(
  * 1. At the top, define any helper functions.
  * 2. As much as possible, use URL params to initial the state of the app.
  ******************************************************************************/
-
-// Initialize the timeSeriesControl
-c.timeSeriesControl.startSlider.setValue(Date.parse("2022-03-01"), false)
-c.timeSeriesControl.endSlider.setValue(Date.parse("2022-07-01"), true)
+// Background for Saudi 
+c.map.add(ui.Map.Layer({
+    eeObject: ee.Image(0).clip(m.saudi),
+    visParams: {palette:["#CE7E45"]},
+    name: "Background"
+}))
+// Initialize the timeControl
+c.timeControl.startSlider.setValue(Date.parse("2022-03-01"), false)
+c.timeControl.endSlider.setValue(Date.parse("2022-07-01"), true)
 // Center on Saudi Arabia:
 m.center=m.saudi.centroid()
 c.map.setCenter({
