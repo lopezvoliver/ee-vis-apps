@@ -30,10 +30,10 @@ m.imgInfo = {
       },
     },
     'NDVI':{
-      vis:{
       displayName: "NDVI",
       showColorBar: true,
       colorBarName: "NDVI",
+      vis:{
         min:0,
         max:1,
         palette:[,
@@ -112,7 +112,7 @@ m.imgInfo = {
       },
     },
     'LEc':{
-      displayName: "Canopy Latent heat flux",
+      displayName: "Canopy Latent heat flux (W/m²)",
       showColorBar: true,
       colorBarName: "Latent heat flux (W/m²)",
       vis:{
@@ -129,7 +129,7 @@ m.imgInfo = {
       },
     },
     'LEs':{
-      displayName: "Soil latent heat flux",
+      displayName: "Soil latent heat flux (W/m²)",
       showColorBar: false,  // Shared colorbar with LEc
       colorBarName: "Latent heat flux (W/m²)",
       vis:{
