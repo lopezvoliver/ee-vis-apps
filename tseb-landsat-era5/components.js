@@ -52,22 +52,23 @@ c.info.panel = ui.Panel([
   c.info.aboutLabel
 ]);
 
-// 1. Time series control. 
+// 1. Time control. 
 c.timeControl = {};
-c.timeControl.title = ui.Label('Time series control');
-c.timeControl.label = ui.Label('Select start and end dates 📅');
+c.timeControl.startLabel = ui.Label('Select the start date 📅');
 c.timeControl.startSlider = ui.DateSlider({period: 1, 
     start: m.dataDateRange.init_start,
     end: m.dataDateRange.init_end
 });
+c.timeControl.endLabel = ui.Label('Select the end date 📅');
 c.timeControl.endSlider = ui.DateSlider({period: 1,
     start: m.dataDateRange.init_start,
     end: m.dataDateRange.init_end
 });
 c.timeControl.panel = ui.Panel([
-  c.timeControl.label,
   c.timeControl.startSlider,
-  c.timeControl.endSlider
+  c.timeControl.startLabel,
+  c.timeControl.endSlider,
+  c.timeControl.endLabel
   ]);
 
 // 2. Legends: one for each band (if showColorBar is true)

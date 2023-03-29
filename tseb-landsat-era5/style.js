@@ -65,10 +65,9 @@ function apply(c){
   c.info.titleLabel.style().set(s.bigTopMargin);
   c.info.aboutLabel.style().set(s.aboutText);
 
-
-  c.timeControl.title.style().set(s.bigTitle);
-  c.timeControl.label.style().set(s.widgetTitle)
+  c.timeControl.startLabel.style().set(s.aboutText);
   c.timeControl.startSlider.style().set(s.widget);
+  c.timeControl.endLabel.style().set(s.aboutText);
   c.timeControl.endSlider.style().set(s.widget);
   c.timeControl.panel.style().set({
     width: '300px',

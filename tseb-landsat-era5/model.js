@@ -56,7 +56,7 @@ m.imgInfo = {
       },
     },
     'LST':{
-      displayName: "Land Surface Temperature (K)",
+      displayName: "Land Surface Temperature",
       showColorBar: true,
       colorBarName: "Land Surface Temperature (K)",
       vis:{
@@ -78,7 +78,7 @@ m.imgInfo = {
     'LAI':{
       displayName: "Leaf Area Index",
       showColorBar: true,
-      colorBarName: "Leaf Area Index",
+      colorBarName: "Leaf Area Index (m²/m²)",
       vis:{
         min:0,
         max:6,
@@ -95,7 +95,7 @@ m.imgInfo = {
       },
     },
     'LEc':{
-      displayName: "Canopy Latent heat flux (W/m²)",
+      displayName: "Canopy Latent heat flux",
       showColorBar: true,
       colorBarName: "Latent heat flux (W/m²)",
       vis:{
@@ -112,7 +112,7 @@ m.imgInfo = {
       },
     },
     'LEs':{
-      displayName: "Soil latent heat flux (W/m²)",
+      displayName: "Soil latent heat flux",
       showColorBar: false,  // Shared colorbar with LEc
       colorBarName: "Latent heat flux (W/m²)",
       vis:{
@@ -129,7 +129,7 @@ m.imgInfo = {
       },
     },
     'ETd':{
-      displayName: "ET (mm/day)",
+      displayName: "ET",
       showColorBar: true,
       colorBarName: "ET (mm/day)",
       vis:{
