@@ -92,6 +92,7 @@ function updateMap(){
   Object.keys(m.imgInfo.bands).map(addBandToMap)
  
   // WRS2 Descending shapefile -- on top but by default not visible
+  removeLayer("Landsat WRS 2 Descending Path Row")
   var pathRows = imageCollection.aggregate_array("PATHROW").distinct()
   var wrsTiles = m.wrs.filter(ee.Filter.inList("WRSPR", pathRows));
   c.map.add(ui.Map.Layer({
