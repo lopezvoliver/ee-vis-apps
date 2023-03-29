@@ -94,23 +94,6 @@ m.imgInfo = {
         ]
       },
     },
-    'ETd':{
-      displayName: "ET (mm/day)",
-      showColorBar: true,
-      colorBarName: "ET (mm/day)",
-      vis:{
-        min:0,
-        max:6,
-        palette:[
-        '#86340c', 
-        '#c49e0d', 
-        '#f3fe34', 
-        '#aefeae', 
-        '#11f9fd', 
-        '#698afc', 
-        '#5813fc']
-      },
-    },
     'LEc':{
       displayName: "Canopy Latent heat flux (W/m²)",
       showColorBar: true,
@@ -144,7 +127,24 @@ m.imgInfo = {
         '#698afc', 
         '#5813fc']
       },
-    }
+    },
+    'ETd':{
+      displayName: "ET (mm/day)",
+      showColorBar: true,
+      colorBarName: "ET (mm/day)",
+      vis:{
+        min:0,
+        max:6,
+        palette:[
+        '#86340c', 
+        '#c49e0d', 
+        '#f3fe34', 
+        '#aefeae', 
+        '#11f9fd', 
+        '#698afc', 
+        '#5813fc']
+      },
+    },
   }
 };
 
