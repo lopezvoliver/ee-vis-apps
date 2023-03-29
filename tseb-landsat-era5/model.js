@@ -18,6 +18,9 @@ var m = {};
 m.imgInfo = {
   bands:{
     'albedo':{
+      displayName: "Albedo",
+      showColorBar: true,
+      colorBarName: "Albedo",
       vis:{
         min:0,
         max:0.5,
@@ -25,14 +28,15 @@ m.imgInfo = {
         '#000000',
         '#ffffff']
       },
-      displayName: "Albedo",
     },
     'NDVI':{
       vis:{
+      displayName: "NDVI",
+      showColorBar: true,
+      colorBarName: "NDVI",
         min:0,
         max:1,
-        palette:[
-        '#CE7E45', 
+        palette:[,
         '#CE7E45', 
         '#DF923D', 
         '#F1B555', 
@@ -50,9 +54,11 @@ m.imgInfo = {
         '#011D01', 
         '#011301']
       },
-      displayName: "NDVI",
     },
     'LST':{
+      displayName: "Land Surface Temperature (K)",
+      showColorBar: true,
+      colorBarName: "Land Surface Temperature (K)",
       vis:{
         min:290,
         max:320,
@@ -68,9 +74,30 @@ m.imgInfo = {
         '#f8d13c',
         '#fcffa4']
       },
-      displayName: "Land Surface Temperature (K)",
+    },
+    'LAI':{
+      displayName: "Leaf Area Index",
+      showColorBar: true,
+      colorBarName: "Leaf Area Index",
+      vis:{
+        min:0,
+        max:6,
+        palette:[
+        '#6a3d07',
+        '#f0deb0',
+        '#abcb4b',
+        '#68a200',
+        '#267900',
+        '#005200',
+        '#002900',
+        '#000100'
+        ]
+      },
     },
     'ETd':{
+      displayName: "ET (mm/day)",
+      showColorBar: true,
+      colorBarName: "ET (mm/day)",
       vis:{
         min:0,
         max:6,
@@ -83,7 +110,40 @@ m.imgInfo = {
         '#698afc', 
         '#5813fc']
       },
-      displayName: "ET (mm/day)",
+    },
+    'LEc':{
+      displayName: "Canopy Latent heat flux (W/m²)",
+      showColorBar: true,
+      colorBarName: "Latent heat flux (W/m²)",
+      vis:{
+        min:0,
+        max:500,
+        palette:[
+        '#86340c', 
+        '#c49e0d', 
+        '#f3fe34', 
+        '#aefeae', 
+        '#11f9fd', 
+        '#698afc', 
+        '#5813fc']
+      },
+    },
+    'LEs':{
+      displayName: "Soil latent heat flux (W/m²)",
+      showColorBar: false,
+      colorBarName: "Latent heat flux (W/m²)",
+      vis:{
+        min:0,
+        max:500,
+        palette:[
+        '#86340c', 
+        '#c49e0d', 
+        '#f3fe34', 
+        '#aefeae', 
+        '#11f9fd', 
+        '#698afc', 
+        '#5813fc']
+      },
     }
   }
 };

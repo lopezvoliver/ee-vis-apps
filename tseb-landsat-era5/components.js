@@ -70,7 +70,7 @@ c.timeSeriesControl.panel = ui.Panel([
   c.timeSeriesControl.endSlider
   ]);
 
-// 2. Legends: one for each band.
+// 2. Legends: one for each band (if showColorBar is true)
 c.legends = [];
 c.legendTitles = [];
 c.legendLabels = []; // Left and right labels.
@@ -78,34 +78,37 @@ c.legendCenterLabels=[];
 c.legendColorBars=[];
 
 function addColorBar(band_key){
-    var title = ui.Label(m.imgInfo.bands[band_key].displayName);
-    c.legendTitles.push(title);
-    var visParams = m.imgInfo.bands[band_key].vis;
-    var min = visParams.min;
-    var max = visParams.max;
-    var leftLabel = ui.Label(min)
-    c.legendLabels.push(leftLabel)
-    var centerLabel = ui.Label(min/2 + max/2)
-    c.legendCenterLabels.push(centerLabel)
-    var rightLabel = ui.Label(max)
-    c.legendLabels.push(rightLabel)
-    var colorbar = ui.Thumbnail({
-        image:ee.Image.pixelLonLat().select(0),
-        params: {
-            bbox:[min,0,max,0.1],
-            dimensions:'100x10',
-            format:'png',
-            min:min,
-            max:max,
-            palette:visParams.palette
-        }
-    }); 
-    c.legendColorBars.push(colorbar)
-    var labelPanel = ui.Panel({
-        widgets:[leftLabel, centerLabel, rightLabel],
-        layout: ui.Panel.Layout.flow("horizontal")
-    });
-    c.legends.push(ui.Panel([title, colorbar, labelPanel]));
+    bandInfo = m.imgInfo.bands[band_key]
+    if(bandInfo.showColorBar){
+        var title = ui.Label(bandInfo.colorBarName);
+        c.legendTitles.push(title);
+        var visParams = bandInfo.vis;
+        var min = visParams.min;
+        var max = visParams.max;
+        var leftLabel = ui.Label(min)
+        c.legendLabels.push(leftLabel)
+        var centerLabel = ui.Label(min/2 + max/2)
+        c.legendCenterLabels.push(centerLabel)
+        var rightLabel = ui.Label(max)
+        c.legendLabels.push(rightLabel)
+        var colorbar = ui.Thumbnail({
+            image:ee.Image.pixelLonLat().select(0),
+            params: {
+                bbox:[min,0,max,0.1],
+                dimensions:'100x10',
+                format:'png',
+                min:min,
+                max:max,
+                palette:visParams.palette
+            }
+        }); 
+        c.legendColorBars.push(colorbar)
+        var labelPanel = ui.Panel({
+            widgets:[leftLabel, centerLabel, rightLabel],
+            layout: ui.Panel.Layout.flow("horizontal")
+        });
+        c.legends.push(ui.Panel([title, colorbar, labelPanel]));
+    }
 }
 
 Object.keys(m.imgInfo.bands).map(addColorBar);
