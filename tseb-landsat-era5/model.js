@@ -149,9 +149,9 @@ m.imgInfo = {
 };
 
 // Region of interest -- Saudi
-m.gaul = ee.FeatureCollection("FAO/GAUL/2015/level1")
+m.gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
 m.saudi = m.gaul.filter(ee.Filter.eq("ADM0_NAME", "Saudi Arabia"))
-.geometry().dissolve({"maxError":30})
+.geometry().dissolve({"maxError":30});
 
 // Date range allowed in the slider
 m.dataDateRange = {
@@ -162,7 +162,8 @@ m.dataDateRange = {
 }; // The start and end parameters are modified with c.timeControl.startSlider 
 // and c.timeControl.endSlider, respectively. 
 
-m.tsebImageCollection = ee.ImageCollection("projects/halo-mewa/assets/tseb-landsat-era5")
+m.tsebImageCollection = ee.ImageCollection("projects/halo-mewa/assets/tseb-landsat-era5");
 
+m.wrs = ee.FeatureCollection("users/oliverlopez/WRS2_descending");
 
 exports.m = m;

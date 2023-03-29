@@ -70,6 +70,11 @@ function updateMap(){
   var imageCollection = m.tsebImageCollection
   .filterDate(m.dataDateRange.start, m.dataDateRange.end)
   .map(colormaps.util.scale)
+  .map(function(image){
+    var path = ee.Number(image.get("WRS_PATH")).format("%03d");
+    var row = ee.Number(image.get("WRS_ROW")).format("%03d");
+    return image.set({PATHROW:path.cat(row)})
+  })
   var band_names=imageCollection.first().bandNames()
   var meanImage=imageCollection
   .reduce(ee.Reducer.mean())
@@ -85,7 +90,15 @@ function updateMap(){
     }));
   }
   Object.keys(m.imgInfo.bands).map(addBandToMap)
-  
+ 
+  // WRS2 Descending shapefile -- on top but by default not visible
+  var pathRows = imageCollection.aggregate_array("PATHROW").distinct()
+  var wrsTiles = m.wrs.filter(ee.Filter.inList("WRSPR", pathRows));
+  c.map.add(ui.Map.Layer({
+    eeObject: wrsTiles,
+    name: "Landsat WRS 2 Descending Path Row",
+    shown: false
+  })); 
 }
 
 c.timeControl.startSlider.onChange(
