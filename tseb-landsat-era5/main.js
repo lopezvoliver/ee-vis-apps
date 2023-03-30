@@ -1,5 +1,4 @@
 // Modules
-var colormaps = require('users/oliverlopez/util:colormaps')
 var model = require('users/oliverlopez/mewa-apps:tseb-landsat-era5/model.js');
 var components = require('users/oliverlopez/mewa-apps:tseb-landsat-era5/components.js');
 var style = require('users/oliverlopez/mewa-apps:tseb-landsat-era5/style.js');
@@ -66,10 +65,17 @@ var removeLayer = function(name) {
   if (index > -1) {c.map.remove(layers.get(index))} 
 }
 
+function scaleImage(image){
+  return ee.Image(
+  image.divide(ee.Number(image.get("SCALING_FACTOR")))
+  .copyProperties(image)
+)
+}
+
 function updateMap(){
   var imageCollection = m.tsebImageCollection
   .filterDate(m.dataDateRange.start, m.dataDateRange.end)
-  .map(colormaps.util.scale)
+  .map(scaleImage) //int32 to float using SCALING_FACTOR
   .map(function(image){
     var path = ee.Number(image.get("WRS_PATH")).format("%03d");
     var row = ee.Number(image.get("WRS_ROW")).format("%03d");
