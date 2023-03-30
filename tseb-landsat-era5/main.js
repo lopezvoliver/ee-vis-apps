@@ -72,6 +72,22 @@ function scaleImage(image){
 )
 }
 
+function queryCollectionSize(){
+    m.tsebImageCollection.size().evaluate(function(n){
+    c.info.collectionSizeLabel.setValue("Number of images: "+n)
+    })
+}
+
+function queryFilteredCollectionSize(){
+  m.tsebImageCollection
+  .filterDate(m.dataDateRange.start, m.dataDateRange.end)
+  .size()
+  .evaluate(function(n){
+    c.info.fCollectionSizeLabel
+    .setValue("Number of images in selected period: "+n)
+  })
+}
+
 function updateMap(){
   var imageCollection = m.tsebImageCollection
   .filterDate(m.dataDateRange.start, m.dataDateRange.end)
@@ -107,28 +123,26 @@ function updateMap(){
     shown: false
   })); 
   // Query selected image collection size:
-  imageCollection.size().evaluate(function(n){
-  c.info.fCollectionSizeLabel.setValue("Number of images in selected period: "+n)})
+  queryFilteredCollectionSize();
+  // and then update it every minute:
+  ui.util.clearTimeout(m.qfcs) // Clear previous setInterval call.
+  m.qfcs = ui.util.setInterval(function(){queryFilteredCollectionSize()}, 60*1000)
 }
 
 c.timeControl.startSlider.onChange(
-    function(ee_date_range){
+    ui.util.debounce(function(ee_date_range){
         m.dataDateRange.start = ee_date_range.start();
         updateMap();
-    }
-)
+    },500)
+);
 c.timeControl.endSlider.onChange(
-    function(ee_date_range){
+    ui.util.debounce(function(ee_date_range){
         m.dataDateRange.end = ee_date_range.end();
         updateMap();
-    }
-)
+    },500)
+);
 
-function queryCollectionSize(){
-    m.tsebImageCollection.size().evaluate(function(n){
-    c.info.collectionSizeLabel.setValue("Number of images: "+n)
-    })
-}
+
 
 /*******************************************************************************
  * Initialize *
@@ -139,6 +153,7 @@ function queryCollectionSize(){
  * 1. At the top, define any helper functions.
  * 2. As much as possible, use URL params to initial the state of the app.
  ******************************************************************************/
+m.qfcs=null; // Initial interval key for queryFilteredCollectionSize function.
 // Background for Saudi 
 c.map.add(ui.Map.Layer({
     eeObject: ee.Image(0).clip(m.saudi),
