@@ -145,7 +145,7 @@ c.timeControl.endSlider.setValue(Date.parse("2022-07-01"), true)
 // Query the Total number of images upon initialization, and 
 // every minute after then.
 queryCollectionSize()
-ui.util.setInterval(function(){queryCollectionSize}, 60*1000)
+ui.util.setInterval(function(){queryCollectionSize()}, 60*1000)
 
 // Center on Saudi Arabia:
 m.center=m.saudi.centroid()
