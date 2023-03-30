@@ -100,6 +100,9 @@ function updateMap(){
     name: "Landsat WRS 2 Descending Path Row",
     shown: false
   })); 
+  // Query selected image collection size:
+  imageCollection.size().evaluate(function(n){
+  c.info.fCollectionSizeLabel.setValue("Number of images in selected period: "+n)})
 }
 
 c.timeControl.startSlider.onChange(
@@ -114,6 +117,12 @@ c.timeControl.endSlider.onChange(
         updateMap();
     }
 )
+
+function queryCollectionSize(){
+    m.tsebImageCollection.size().evaluate(function(n){
+    c.info.collectionSizeLabel.setValue("Number of images: "+n)
+    })
+}
 
 /*******************************************************************************
  * Initialize *
@@ -133,6 +142,11 @@ c.map.add(ui.Map.Layer({
 // Initialize the timeControl
 c.timeControl.startSlider.setValue(Date.parse("2022-03-01"), false)
 c.timeControl.endSlider.setValue(Date.parse("2022-07-01"), true)
+// Query the Total number of images upon initialization, and 
+// every minute after then.
+queryCollectionSize()
+ui.util.setInterval(function(){queryCollectionSize}, 60*1000)
+
 // Center on Saudi Arabia:
 m.center=m.saudi.centroid()
 c.map.setCenter({

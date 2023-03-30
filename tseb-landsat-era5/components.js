@@ -47,9 +47,14 @@ c.info.aboutLabel = ui.Label(
   'Select a period to reduce the image collection (mean) and explore '+
   'the available data.' 
   );
+c.info.collectionSizeLabel = ui.Label(
+    "Number of images: ");
+c.info.fCollectionSizeLabel = ui.Label(
+    "Number of images in selected period: ");
 c.info.panel = ui.Panel([
   c.info.titleLabel, 
-  c.info.aboutLabel
+  c.info.aboutLabel,
+  c.info.collectionSizeLabel
 ]);
 
 // 1. Time control. 
@@ -68,7 +73,8 @@ c.timeControl.panel = ui.Panel([
   c.timeControl.startSlider,
   c.timeControl.startLabel,
   c.timeControl.endSlider,
-  c.timeControl.endLabel
+  c.timeControl.endLabel,
+  c.info.fCollectionSizeLabel
   ]);
 
 // 2. Legends: one for each band (if showColorBar is true)
