@@ -177,8 +177,8 @@ c.map.add(ui.Map.Layer({
     name: "Background"
 }))
 // Initialize the timeControl
-c.timeControl.startSlider.setValue(Date.parse("2022-03-01"), false)
-c.timeControl.endSlider.setValue(Date.parse("2022-07-01"), false)
+c.timeControl.startSlider.setValue(m.dataDateRange.start, false)
+c.timeControl.endSlider.setValue(m.dataDateRange.end, false)
 c.reducerSelector.setValue("Mean", true) 
 
 // Query the Total number of images upon initialization, and 
