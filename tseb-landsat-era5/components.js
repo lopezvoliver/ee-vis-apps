@@ -33,8 +33,7 @@ c.info = {};
 c.info.titleLabel = ui.Label('tseb-landsat-era5 image collection');
 c.info.aboutLabel = ui.Label(
   'Visualization of the tseb-landsat-era5 collection. ' + 
-  'Select a period to reduce the image collection (mean) and explore '+
-  'the available data.' 
+  'Select a start/end date, and a reducer (defaults to "Mean") to apply to the image collection.'
   );
 c.info.collectionSizeLabel = ui.Label(
     "Number of images: ");
@@ -67,9 +66,15 @@ c.timeControl.panel = ui.Panel([
   ]);
 
 // Reducer selector: mean, max, 
+c.reducerSelectionLabel = ui.Label(
+    "Reducer: ");
 c.reducerSelector = ui.Select({
     items:Object.keys(m.Reducers)
 })
+c.reducer = ui.Panel([
+    c.reducerSelectionLabel,
+    c.reducerSelector
+])
 
 // Legends: one for each band (if showColorBar is true)
 c.legends = [];
