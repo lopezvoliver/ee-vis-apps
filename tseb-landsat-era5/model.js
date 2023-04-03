@@ -157,8 +157,8 @@ m.saudi = m.gaul.filter(ee.Filter.eq("ADM0_NAME", "Saudi Arabia"))
 m.dataDateRange = {
   init_start: Date.parse("2013-01-01T00:00:00"), 
   init_end: Date.now(),
-  start: ee.Date("2022-03-01"),
-  end:ee.Date("2022-07-01")
+  start: ee.Date("2022-01-01"),
+  end:ee.Date("2022-12-31")
 }; // The start and end parameters are modified with c.timeControl.startSlider 
 // and c.timeControl.endSlider, respectively. 
 
