@@ -108,7 +108,7 @@ function updateMap(){
   })
   var band_names=imageCollection.first().bandNames()
   var reducedImage=imageCollection
-  .reduce(ee.Reducer.mean())
+  .reduce(m.Reducer)
   var bad_band_names=reducedImage.bandNames()
   reducedImage=reducedImage.select(bad_band_names, band_names)
   
