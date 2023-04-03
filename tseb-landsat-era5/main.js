@@ -26,6 +26,7 @@ var c =components.makec(m);
 ui.root.clear();
 c.controlPanel.add(c.info.panel);
 c.controlPanel.add(c.timeControl.panel);
+c.controlPanel.add(c.reducerSelector);
 //c.controlPanel.add(c.dividers.divider1);
 //c.controlPanel.add(c.selectBand.panel);
 c.controlPanel.add(c.legendPanel)
