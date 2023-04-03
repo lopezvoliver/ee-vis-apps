@@ -57,12 +57,18 @@ c = style.apply(c); // Apply the styles to the components.
  *     - the select band slider changes.
  ******************************************************************************/
 var removeLayer = function(name) {
-  // Look for a layer by name and remove it if found. 
+  // Look for a layer by name and remove it if found.
+  // Return the visi 
   var layers = c.map.layers()
   var names = []
+  var shown = true; 
   layers.forEach(function(l){names.push(l.getName())})
   var index = names.indexOf(name)
-  if (index > -1) {c.map.remove(layers.get(index))} 
+  if (index > -1) {
+    shown = layers.get(index).getShown();
+    c.map.remove(layers.get(index))
+    } 
+  return shown;
 }
 
 function scaleImage(image){
@@ -102,13 +108,14 @@ function updateMap(){
   .reduce(ee.Reducer.mean())
   var bad_band_names=meanImage.bandNames()
   meanImage=meanImage.select(bad_band_names, band_names)
- 
+  
   function addBandToMap(band_key){
-    removeLayer(m.imgInfo.bands[band_key].displayName)
+    var shown = removeLayer(m.imgInfo.bands[band_key].displayName)
     c.map.add(ui.Map.Layer({
       eeObject: meanImage.select(band_key).updateMask(1),
       visParams: m.imgInfo.bands[band_key].vis,
-      name: m.imgInfo.bands[band_key].displayName
+      name: m.imgInfo.bands[band_key].displayName,
+      shown: shown
     }));
   }
   Object.keys(m.imgInfo.bands).map(addBandToMap)
