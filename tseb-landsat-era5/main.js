@@ -94,6 +94,8 @@ function queryFilteredCollectionSize(){
   })
 }
 
+
+
 function updateMap(){
   var imageCollection = m.tsebImageCollection
   .filterDate(m.dataDateRange.start, m.dataDateRange.end)
@@ -104,15 +106,15 @@ function updateMap(){
     return image.set({PATHROW:path.cat(row)})
   })
   var band_names=imageCollection.first().bandNames()
-  var meanImage=imageCollection
+  var reducedImage=imageCollection
   .reduce(ee.Reducer.mean())
-  var bad_band_names=meanImage.bandNames()
-  meanImage=meanImage.select(bad_band_names, band_names)
+  var bad_band_names=reducedImage.bandNames()
+  reducedImage=reducedImage.select(bad_band_names, band_names)
   
   function addBandToMap(band_key){
     var shown = removeLayer(m.imgInfo.bands[band_key].displayName)
     c.map.add(ui.Map.Layer({
-      eeObject: meanImage.select(band_key).updateMask(1),
+      eeObject: reducedImage.select(band_key).updateMask(1),
       visParams: m.imgInfo.bands[band_key].vis,
       name: m.imgInfo.bands[band_key].displayName,
       shown: shown
@@ -136,6 +138,11 @@ function updateMap(){
   m.qfcs = ui.util.setInterval(function(){queryFilteredCollectionSize()}, 60*1000)
 }
 
+function updateReducer(value){
+    m.Reducer = m.Reducers[value]
+    updateMap();
+}
+
 c.timeControl.startSlider.onChange(
     ui.util.debounce(function(ee_date_range){
         m.dataDateRange.start = ee_date_range.start();
@@ -149,6 +156,7 @@ c.timeControl.endSlider.onChange(
     },500)
 );
 
+c.reducerSelector.onChange(updateReducer)
 
 
 /*******************************************************************************
@@ -169,7 +177,9 @@ c.map.add(ui.Map.Layer({
 }))
 // Initialize the timeControl
 c.timeControl.startSlider.setValue(Date.parse("2022-03-01"), false)
-c.timeControl.endSlider.setValue(Date.parse("2022-07-01"), true)
+c.timeControl.endSlider.setValue(Date.parse("2022-07-01"), false)
+c.reducerSelector.setValue("Mean", true) 
+
 // Query the Total number of images upon initialization, and 
 // every minute after then.
 queryCollectionSize()

@@ -162,6 +162,13 @@ m.dataDateRange = {
 }; // The start and end parameters are modified with c.timeControl.startSlider 
 // and c.timeControl.endSlider, respectively. 
 
+// Reducer to use (defaults to ee.Reducer.mean)
+m.Reducers = {
+    "Mean": ee.Reducer.mean(),
+    "Max": ee.Reducer.max()
+}
+m.Reducer = m.Reducers["Mean"]  // Default 
+
 m.tsebImageCollection = ee.ImageCollection("projects/halo-mewa/assets/tseb-landsat-era5");
 
 m.wrs = ee.FeatureCollection("users/oliverlopez/WRS2_descending");

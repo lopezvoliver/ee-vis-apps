@@ -11,17 +11,6 @@
  *    (i.e. a group of widgets that would make no sense out of order).
  * 
  * 
- * Components:
- * 0: Introduction
- *  - Title
- *  - Text 
- * 1: Time series control
- *  - Select start and end dates
- *  - Start date slider
- *  - End date slider
- * 2. Colorbars
- *  - Colorbar title, image, min, middle, max values
- *  Need to create one for each band. 
  ******************************************************************************/
 function make_components(m){
 // Define a JSON object for storing UI components.
@@ -57,7 +46,7 @@ c.info.panel = ui.Panel([
   c.info.collectionSizeLabel
 ]);
 
-// 1. Time control. 
+// Time control. 
 c.timeControl = {};
 c.timeControl.startLabel = ui.Label('Select the start date 📅');
 c.timeControl.startSlider = ui.DateSlider({period: 1, 
@@ -77,7 +66,12 @@ c.timeControl.panel = ui.Panel([
   c.info.fCollectionSizeLabel
   ]);
 
-// 2. Legends: one for each band (if showColorBar is true)
+// Reducer selector: mean, max, 
+c.reducerSelector = ui.Select({
+    items:Object.keys(m.Reducers)
+})
+
+// Legends: one for each band (if showColorBar is true)
 c.legends = [];
 c.legendTitles = [];
 c.legendLabels = []; // Left and right labels.
