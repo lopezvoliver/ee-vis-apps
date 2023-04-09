@@ -1,0 +1,23 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #98ff00 */ee.Geometry.Point([38.36621458328676, 29.776361092411264]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+// Use this to quickly view one landsat image at a particular location
+// Useful to select test images. 
+// Todo: make this into a simple app..
+// User button to put a marker, and a date
+// We give the closest Landsat
+//  i.e. make a daterange +-16 days, then get the closest one
+// Display the LANDSAT_INDEX in a text box
+// USer can select whether to display which satellites
+// to include in the search (L8, L7, L9)
+// A dropdown will show all the images found and user can
+// display that one instead of the "closest" one found. 
+var l8tools = require('users/oliverlopez/util:l8')
+var l8 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
+.filterBounds(geometry)
+.filterDate("2019-05-01", "2019-05-30")
+.map(l8tools.applyScale)
+print(l8)
+var test_image = l8.first()
+Map.addLayer(test_image, l8tools.vis, 'Landsat image');
+print(test_image)
