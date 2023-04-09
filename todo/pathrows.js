@@ -26,18 +26,27 @@ m.gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
 m.saudi = m.gaul.filter(ee.Filter.eq("ADM0_NAME", "Saudi Arabia"))
 .geometry().dissolve({"maxError":30});
 var region = regions.filter(ee.Filter.eq(
-  //"region_key","JZ_001"
-  "region","EP"
+  //"region_key","RD_900"
+  "region","RD"
   ))
 var date_start=ee.Date("2021-01-01")
 var date_end=ee.Date("2022-01-01")   // Note: 28 is the last available as of April 4, 2023.
 
 exclude_pr=[
-  [160,45],
-  [160,46],
-  [163,41],
-  [166,40],
-  [167,41]
+                [164,43],
+                [164,44],
+                [165,42],
+                [165,45],
+                [165,46],
+                [165,47],
+                [166,43],
+                [166,45],
+                [166,46],
+                [166,47],
+                [167,42],
+                [167,43],
+                [168,41],
+                [168,42]
 ];
 
 function filter_landsat_collection(landsat_collection){
