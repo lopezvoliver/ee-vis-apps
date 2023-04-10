@@ -105,7 +105,7 @@ delineate.fieldDelineation = function(potential_pix_img, geom, eps, grow_distanc
     return field_vectors;
 };
 
-exports.delineate = delineate;
+exports = delineate;
  
 // def rank_regions(regions, MIN_AREA=500, HIGH_RANK=999):
 //     """
