@@ -19,13 +19,13 @@ delineate.getCorePix = function(potential_pix, eps){
 
 delineate.setAreaKm2 = function(feature){
     return feature.set({
-        'area': feature.geometry().area(maxError=30).multiply(1e-6) // km2
+        'area': feature.geometry().area({maxError:30}).multiply(1e-6) // km2
     });
 };
 
 delineate.setAreaHa = function(feature){
     return feature.set({
-        'area': feature.geometry().area(maxError=30).multiply(1e-4) // ha
+        'area': feature.geometry().area({maxError:30}).multiply(1e-4) // ha
     });
 };
 
@@ -77,7 +77,7 @@ delineate.connectedDelineation = function(core_pix, scale, geom){
     var con = core_pix.int().connectedComponents({
         connectedness : ee.Kernel.plus(1),
         maxSize : 1024
-    })
+    });
     return con.select('labels').reduceToVectors({
         geometry : geom,
         crs : ee.Projection('EPSG:4326'),
