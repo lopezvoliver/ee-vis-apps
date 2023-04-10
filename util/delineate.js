@@ -99,9 +99,9 @@ delineate.fieldDelineation = function(potential_pix_img, geom, eps, grow_distanc
     grow_distance=grow_distance||60;
     scale=scale||30;
     
-    core_pix = delineate.getCorePix(potential_pix_img, eps);
-    core_pix_grown = delineate.distanceMask(core_pix, grow_distance);
-    field_vectors = delineate.connectedDelineation(core_pix_grown, scale, geom);
+    var core_pix = delineate.getCorePix(potential_pix_img, eps);
+    var core_pix_grown = delineate.distanceMask(core_pix, grow_distance);
+    var field_vectors = delineate.connectedDelineation(core_pix_grown, scale, geom);
     return field_vectors;
 };
 
