@@ -101,7 +101,7 @@ delineate.fieldDelineation = function(potential_pix_img, geom, eps, grow_distanc
     
     core_pix = delineate.getCorePix(potential_pix_img, eps);
     core_pix_grown = delineate.distanceMask(core_pix, grow_distance);
-    field_vectors = delineate.connected_delineation(core_pix_grown, scale, geom);
+    field_vectors = delineate.connectedDelineation(core_pix_grown, scale, geom);
     return field_vectors;
 };
 
