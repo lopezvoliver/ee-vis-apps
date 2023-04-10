@@ -106,124 +106,125 @@ delineate.fieldDelineation = function(potential_pix_img, geom, eps, grow_distanc
 };
 
 exports = delineate;
- 
-// def rank_regions(regions, MIN_AREA=500, HIGH_RANK=999):
-//     """
-//     Add human-readable keys to the agricultural regions
-//     the template is:
-//     region_key = ADMINSHORTNAME_RANK
 
-//     where ADMINSHORTNAME is one of the following:
-//         2622: 'AS',  # Asir
-//         2623: 'BH',  # Al Baha
-//         2624: 'EP',  # Eastern Province
-//         2625: 'HL',  # Hail
-//         2626: 'AJ',  # Al Jawf
-//         2627: 'JZ',  # Jizan
-//         2628: 'MD',  # Medina
-//         2629: 'MK',  # Mekkah
-//         2630: 'NJ',  # Najran
-//         2631: 'NB',  # Northern borders
-//         2632: 'QS',  # Qassim
-//         2633: 'RD',  # Riyadh
-//         2634: 'TB',  # Tabuk
-//     where the number indicates the admin level 1 code from the 
-//     FAO/GAUL/2015/level1 product*
+/*
+def rank_regions(regions, MIN_AREA=500, HIGH_RANK=999):
+    """
+    Add human-readable keys to the agricultural regions
+    the template is:
+    region_key = ADMINSHORTNAME_RANK
 
-//     The RANK is a number indicating the rank in area
-//     (where 1 is the largest region) out of all the polygons in the
-//     given administrative region. 
+    where ADMINSHORTNAME is one of the following:
+        2622: 'AS',  # Asir
+        2623: 'BH',  # Al Baha
+        2624: 'EP',  # Eastern Province
+        2625: 'HL',  # Hail
+        2626: 'AJ',  # Al Jawf
+        2627: 'JZ',  # Jizan
+        2628: 'MD',  # Medina
+        2629: 'MK',  # Mekkah
+        2630: 'NJ',  # Najran
+        2631: 'NB',  # Northern borders
+        2632: 'QS',  # Qassim
+        2633: 'RD',  # Riyadh
+        2634: 'TB',  # Tabuk
+    where the number indicates the admin level 1 code from the 
+    FAO/GAUL/2015/level1 product*
 
-//     However, for regions that are less than HIGH_RANK (in the units of
-//     the 'area' property of the input feature collection), 
-//     the RANK is set to 999.
-//     """
-//     # FAO/GAUL/2015/level1 Saudi provinces ADM1 codes:
-//     admin_codes = ee.List([
-//     2622,   
-//     2623,
-//     2624,
-//     2625,
-//     2626,
-//     2627,
-//     2628,
-//     2629,
-//     2630,
-//     2631,
-//     2632,
-//     2633,
-//     2634,
-//     ])
+    The RANK is a number indicating the rank in area
+    (where 1 is the largest region) out of all the polygons in the
+    given administrative region. 
 
-//     short_names = ee.List([
-//     'AS',
-//     'BH',
-//     'EP',
-//     'HL',
-//     'AJ',
-//     'JZ',
-//     'MD',
-//     'MK',
-//     'NJ',
-//     'NB',
-//     'QS',
-//     'RD',
-//     'TB',
-//     ])
+    However, for regions that are less than HIGH_RANK (in the units of
+    the 'area' property of the input feature collection), 
+    the RANK is set to 999.
+    """
+    # FAO/GAUL/2015/level1 Saudi provinces ADM1 codes:
+    admin_codes = ee.List([
+    2622,   
+    2623,
+    2624,
+    2625,
+    2626,
+    2627,
+    2628,
+    2629,
+    2630,
+    2631,
+    2632,
+    2633,
+    2634,
+    ])
+
+    short_names = ee.List([
+    'AS',
+    'BH',
+    'EP',
+    'HL',
+    'AJ',
+    'JZ',
+    'MD',
+    'MK',
+    'NJ',
+    'NB',
+    'QS',
+    'RD',
+    'TB',
+    ])
     
-//     def code_to_str(code):
-//         return ee.Number(code).format('%d')
-//     admin_codes_str = admin_codes.map(code_to_str)    
-//     # ^^ Dictionary.fromLists expects list as strings:
-//     region_short_names = ee.Dictionary.fromLists(admin_codes_str, short_names)
+    def code_to_str(code):
+        return ee.Number(code).format('%d')
+    admin_codes_str = admin_codes.map(code_to_str)    
+    # ^^ Dictionary.fromLists expects list as strings:
+    region_short_names = ee.Dictionary.fromLists(admin_codes_str, short_names)
     
-//     admin = (ee.FeatureCollection("FAO/GAUL/2015/level1")
-//     .filter(ee.Filter.eq('ADM0_NAME', 'Saudi Arabia'))
-//     )
+    admin = (ee.FeatureCollection("FAO/GAUL/2015/level1")
+    .filter(ee.Filter.eq('ADM0_NAME', 'Saudi Arabia'))
+    )
     
-//     # Pre-filter -- remove any regions that don't even match any admin boundary:
-//     def check_admin_matches(region):
-//         region_geom = region.geometry()
-//         admin_matches = admin.filterBounds(region_geom) 
-//         nadmin_matches = ee.Number(admin_matches.size())
-//         return region.set({'nadmin':nadmin_matches})
+    # Pre-filter -- remove any regions that don't even match any admin boundary:
+    def check_admin_matches(region):
+        region_geom = region.geometry()
+        admin_matches = admin.filterBounds(region_geom) 
+        nadmin_matches = ee.Number(admin_matches.size())
+        return region.set({'nadmin':nadmin_matches})
     
-//     regions = regions.map(check_admin_matches)\
-//     .filter(ee.Filter.gt('nadmin',0))
+    regions = regions.map(check_admin_matches)\
+    .filter(ee.Filter.gt('nadmin',0))
     
-//     # Get the admin code based on the centroid
-//     def get_admin_code(region):
-//         pt = region.geometry().centroid(100).buffer(10000) 
-//         # need to buffer the centroid, otherwise we get an error. 
-//         admin_region = admin.filterBounds(pt).first()
-//         admin_code = ee.String(admin_region.get('ADM1_CODE'))
-//         return region.set({'admin_code':admin_code})
+    # Get the admin code based on the centroid
+    def get_admin_code(region):
+        pt = region.geometry().centroid(100).buffer(10000) 
+        # need to buffer the centroid, otherwise we get an error. 
+        admin_region = admin.filterBounds(pt).first()
+        admin_code = ee.String(admin_region.get('ADM1_CODE'))
+        return region.set({'admin_code':admin_code})
     
-//     regions = regions.map(get_admin_code)
+    regions = regions.map(get_admin_code)
     
-//     # Rank regions for one province
-//     # for small regions (area<MIN_AREA) set them to HIGH_RANK
-//     def ranked_regions_by_code(code):
-//         code_regions = regions.filter(ee.Filter.eq('admin_code', code))
-//         code = ee.Number(code)
-//         # Add a sequential number to these regions that indicates
-//         # their ranked position in terms of area (in ascending order):
-//         sid = code_regions.sort('area', False).aggregate_array('system:index')
-//         ranks = ee.List.sequence(1, sid.size()) 
-//         ranks_dict = ee.Dictionary.fromLists(sid, ranks)
+    # Rank regions for one province
+    # for small regions (area<MIN_AREA) set them to HIGH_RANK
+    def ranked_regions_by_code(code):
+        code_regions = regions.filter(ee.Filter.eq('admin_code', code))
+        code = ee.Number(code)
+        # Add a sequential number to these regions that indicates
+        # their ranked position in terms of area (in ascending order):
+        sid = code_regions.sort('area', False).aggregate_array('system:index')
+        ranks = ee.List.sequence(1, sid.size()) 
+        ranks_dict = ee.Dictionary.fromLists(sid, ranks)
         
-//         def add_rank(feature):
-//           area = ee.Number(feature.get('area'))
-//           rank_id = ee.Number(ee.Algorithms.If(area.gt(MIN_AREA), 
-//           ranks_dict.get(feature.get('system:index')),
-//           HIGH_RANK))
-//           region_short_name = ee.String(region_short_names.get(code.format('%d')))
-//           region_key = region_short_name.cat('_').cat(rank_id.format('%03d'))
-//           return feature.set({'region_key':region_key, 'rank': rank_id, 'region': region_short_name})
+        def add_rank(feature):
+          area = ee.Number(feature.get('area'))
+          rank_id = ee.Number(ee.Algorithms.If(area.gt(MIN_AREA), 
+          ranks_dict.get(feature.get('system:index')),
+          HIGH_RANK))
+          region_short_name = ee.String(region_short_names.get(code.format('%d')))
+          region_key = region_short_name.cat('_').cat(rank_id.format('%03d'))
+          return feature.set({'region_key':region_key, 'rank': rank_id, 'region': region_short_name})
     
-//         code_regions = code_regions.map(add_rank)
-//         return code_regions
+        code_regions = code_regions.map(add_rank)
+        return code_regions
     
-//     regions_wkey = ee.FeatureCollection(admin_codes.map(ranked_regions_by_code)).flatten()
-//     return regions_wkey
- 
+    regions_wkey = ee.FeatureCollection(admin_codes.map(ranked_regions_by_code)).flatten()
+    return regions_wkey
+*/
