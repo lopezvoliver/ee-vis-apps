@@ -85,7 +85,7 @@ delineate.connectedDelineation = function(core_pix, scale, geom){
         geometryType : 'polygon',
         eightConnected : true,
         maxPixels : 1e10,
-    });
+    }).select("label");
 };
 
 delineate.fieldDelineation = function(potential_pix_img, geom, eps, grow_distance, scale){
