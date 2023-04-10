@@ -83,7 +83,7 @@ delineate.connectedDelineation = function(core_pix, scale, geom){
         crs : ee.Projection('EPSG:4326'),
         scale : scale,
         geometryType : 'polygon',
-        eightConnected : True,
+        eightConnected : true,
         maxPixels : 1e10,
     });
 };
