@@ -25,15 +25,11 @@ var m = {};
 m.gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
 m.saudi = m.gaul.filter(ee.Filter.eq("ADM0_NAME", "Saudi Arabia"))
 .geometry().dissolve({"maxError":30});
-var region = regions.filter(ee.Filter.eq(
-  //"region_key","RD_900"
-  "region","RD"
-  ))
-region = regions.filter(ee.Filter.inList(
-  "region",["RD","EP","QS","HL","AJ","TB","MD","JZ","NB"]
-  ))
-  
-  
+var search_roi_filter=[
+  "region",
+  ["RD","EP","QS","HL","AJ","TB","MD","JZ","NB"]
+  //["RD"]
+  ]
 var date_start=ee.Date("2023-01-29")
 var date_end=ee.Date("2023-03-01")   
 // Note: 2023-01-28 is the last available image as of April 4, 2023. 
@@ -58,6 +54,12 @@ exclude_pr=[
               [174,41]
 ];
 
+
+var region = regions.filter(ee.Filter.inList(
+  search_roi_filter[0],
+  search_roi_filter[1]
+  ))
+ 
 function filter_landsat_collection(landsat_collection){
   return landsat_collection
   .filterDate(date_start, date_end)
