@@ -31,7 +31,7 @@ var region = regions.filter(ee.Filter.eq(
   ))
 
 var region = regions.filter(ee.Filter.inList(
-  "region",["RD","EP","QS","HL","AJ","TB","MD","JZ"]
+  "region",["RD","EP","QS","HL","AJ","TB","MD","JZ","NB"]
   ))
   
   
