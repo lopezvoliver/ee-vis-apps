@@ -41,10 +41,17 @@ var date_end=ee.Date("2023-03-01")
 // Note: 2023-02-28 is the last available image as of April 11, 2023. 
 
 exclude_pr=[
-  [165,47],
-  [166,47],
-  [167,45],
-  [167,46]
+              [165,47],
+              [166,40],
+              [166,47],
+              [166,49],
+              [167,45],
+              [167,46],
+              [168,47],
+              [168,48],
+              [169,42],
+              [173,39],
+              [174,41]
 ];
 
 function filter_landsat_collection(landsat_collection){
