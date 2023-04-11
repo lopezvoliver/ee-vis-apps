@@ -29,8 +29,7 @@ var region = regions.filter(ee.Filter.eq(
   //"region_key","RD_900"
   "region","RD"
   ))
-
-var region = regions.filter(ee.Filter.inList(
+region = regions.filter(ee.Filter.inList(
   "region",["RD","EP","QS","HL","AJ","TB","MD","JZ","NB"]
   ))
   
