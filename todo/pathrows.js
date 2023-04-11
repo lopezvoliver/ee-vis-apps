@@ -27,17 +27,24 @@ m.saudi = m.gaul.filter(ee.Filter.eq("ADM0_NAME", "Saudi Arabia"))
 .geometry().dissolve({"maxError":30});
 var region = regions.filter(ee.Filter.eq(
   //"region_key","RD_900"
-  "region","EP"
+  "region","RD"
   ))
-var date_start=ee.Date("2020-01-01")
-var date_end=ee.Date("2021-01-01")   // Note: 28 is the last available as of April 4, 2023.
+
+var region = regions.filter(ee.Filter.inList(
+  "region",["RD","EP","QS","HL","AJ","TB","MD","JZ"]
+  ))
+  
+  
+var date_start=ee.Date("2023-01-29")
+var date_end=ee.Date("2023-03-01")   
+// Note: 2023-01-28 is the last available image as of April 4, 2023. 
+// Note: 2023-02-28 is the last available image as of April 11, 2023. 
 
 exclude_pr=[
-              [160,45],
-              [160,46],
-              [163,41],
-              [166,40],
-              [167,41]
+  [165,47],
+  [166,47],
+  [167,45],
+  [167,46]
 ];
 
 function filter_landsat_collection(landsat_collection){
