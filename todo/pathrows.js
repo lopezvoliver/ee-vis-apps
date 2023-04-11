@@ -41,6 +41,8 @@ var date_end=ee.Date("2023-03-01")
 // Note: 2023-02-28 is the last available image as of April 11, 2023. 
 
 exclude_pr=[
+              [160,45],
+              [160,46],
               [165,47],
               [166,40],
               [166,47],
