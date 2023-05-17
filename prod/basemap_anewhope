@@ -1,0 +1,91 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var imageCollection = ee.ImageCollection("projects/oliver-lopez-academic-project/assets/tseb-landsat-era5"),
+    gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+/*
+Create XYZ tiles for displaying crop water use data (annually). 
+
+For now, we can only display the mean and max ETd values. We cannot do the sum because the image collection is 8-to-16-daily.
+After doing an object-based analysis for volumetric ETd (annual ET sum), then we can do a basemap for that variable.
+
+To start, we could display the following:
+- Mean ETd, in mm/day   // Make this for 2021
+- Max ETd, in mm/day    // Make this for 2021
+- Mean LE, in W/m2
+- Max LE, in W/m2 
+
+We can get all these values from the projects/oliver-lopez-academic-project/assets/tseb-landsat-era5
+image collection for now. 
+
+First of all -- do we have the 2022 data ready?? not all.. just AJ_001 and QS_001 (almost done). 
+Need to wait for at least RD_001..  
+*/
+var c = require("users/oliverlopez/util:colormaps")
+/* Filter the FAO/GAUL/2015/level1 collection
+to get only Saudi polygons, then dissolve them to a single polygon. */
+var saudi=gaul.filter(ee.Filter.eq("ADM0_NAME","Saudi Arabia"))
+.geometry().dissolve({'maxError':30});
+
+
+var year = 2022;// To be produced when we get more 2022 data 
+var startDate = ee.Date(year+"-01-01");
+var endDate = ee.Date(year+"-12-31");
+
+
+imageCollection=imageCollection.filterDate(startDate, endDate)
+//.filter(ee.Filter.inList("SPACECRAFT_ID", ["LANDSAT_8", "LANDSAT_9"]))
+.map(c.util.scale)
+var band_names=imageCollection.first().bandNames()
+function fix_band_names(img, good_names){
+  // replace band names given by ee.Reducer (e.g. with _mean or _max appended)
+  // to the previous band names
+  var bad_names = img.bandNames()
+  return img.select(bad_names, good_names)
+}
+
+var meanImage=imageCollection.reduce(ee.Reducer.mean())
+meanImage=fix_band_names(meanImage, band_names).updateMask(1)
+var maxImage=imageCollection.reduce(ee.Reducer.max())
+maxImage=fix_band_names(maxImage, band_names).updateMask(1)
+// updateMask(1) is so that the "alpha" at coarser scales is always set to 1. I.e. don't use a transparency based on the amount of valid pixels.
+// We prefer to show the MEAN value at full opacity. 
+
+
+var et_bruno_colormap = ['86340c', 'c49e0d', 'f3fe34', 'aefeae', '11f9fd', '698afc', '5813fc',]
+
+var meanETdImage = meanImage
+//.unmask(0).clip(saudi) // Use a background // Better to just have a background in the app.. 
+.visualize({bands:["ETd"],min: 0, max: 6, palette: et_bruno_colormap})
+Map.addLayer(meanETdImage, {}, 'Mean ET (mm/day) basemap')
+
+
+var maxETdImage = maxImage
+//.unmask(0).clip(saudi) // Use a background // Better to just have a background in the app.. 
+.visualize({bands:["ETd"],min: 3, max: 10, palette: et_bruno_colormap})
+Map.addLayer(maxETdImage, {}, 'Max ET (mm/day) basemap')
+
+// Export 2021 basemaps -- mean ETd (mm/day) and max ETd (mm/day):
+Export.map.toCloudStorage({
+  image: meanETdImage,
+  description: 'basemap_etdmean_'+year, 
+  path: 'ETd_mean/'+year, 
+  skipEmptyTiles: true, 
+  //bucketCorsUris: bucketCorsUris,
+  bucket: 'halo-mewa-tiles',  
+  fileFormat: 'auto',
+  maxZoom: 13,
+  region: saudi,
+  writePublicTiles: true
+});
+Export.map.toCloudStorage({
+  image: maxETdImage,
+  description: 'basemap_etdmax_'+year, 
+  path: 'ETd_max/'+year, 
+  skipEmptyTiles: true, 
+  //bucketCorsUris: bucketCorsUris,
+  bucket: 'halo-mewa-tiles',  
+  fileFormat: 'auto',
+  maxZoom: 13,
+  region: saudi,
+  writePublicTiles: true
+});
