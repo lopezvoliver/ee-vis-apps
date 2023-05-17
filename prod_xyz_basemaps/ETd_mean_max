@@ -6,8 +6,8 @@ To start, we could display the following:
 - Max ETd, in mm/day    // 
 - Mean LE, in W/m2
 - Max LE, in W/m2 
+
 */
-var imageCollection = ee.ImageCollection("projects/halo-mewa/assets/tseb-landsat-era5")
 var gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
     
 var c = require("users/oliverlopez/util:colormaps")
@@ -19,10 +19,11 @@ var saudi=gaul.filter(ee.Filter.eq("ADM0_NAME","Saudi Arabia"))
 function makeTasks(year){
 var startDate = ee.Date(year+"-01-01");
 var endDate = ee.Date(year+"-12-31");
-
+var imageCollection = ee.ImageCollection("projects/halo-mewa/assets/tseb-landsat-era5")
 imageCollection=imageCollection.filterDate(startDate, endDate)
 //.filter(ee.Filter.inList("SPACECRAFT_ID", ["LANDSAT_8", "LANDSAT_9"]))
 .map(c.util.scale)
+print(year, imageCollection.first())
 var band_names=imageCollection.first().bandNames()
 function fix_band_names(img, good_names){
   // replace band names given by ee.Reducer (e.g. with _mean or _max appended)
@@ -43,13 +44,12 @@ var et_bruno_colormap = ['86340c', 'c49e0d', 'f3fe34', 'aefeae', '11f9fd', '698a
 var meanETdImage = meanImage
 //.unmask(0).clip(saudi) // Use a background // Better to just have a background in the app.. 
 .visualize({bands:["ETd"],min: 0, max: 6, palette: et_bruno_colormap})
-Map.addLayer(meanETdImage, {}, 'Mean ET (mm/day) basemap')
-
+//Map.addLayer(meanETdImage, {}, 'Mean ET (mm/day) basemap')
 
 var maxETdImage = maxImage
 //.unmask(0).clip(saudi) // Use a background // Better to just have a background in the app.. 
 .visualize({bands:["ETd"],min: 3, max: 10, palette: et_bruno_colormap})
-Map.addLayer(maxETdImage, {}, 'Max ET (mm/day) basemap')
+//Map.addLayer(maxETdImage, {}, 'Max ET (mm/day) basemap')
 
 // Export mean and max basemaps -- mean ETd (mm/day) and max ETd (mm/day):
 Export.map.toCloudStorage({
