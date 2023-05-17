@@ -16,7 +16,7 @@ to get only Saudi polygons, then dissolve them to a single polygon. */
 var saudi=gaul.filter(ee.Filter.eq("ADM0_NAME","Saudi Arabia"))
 .geometry().dissolve({'maxError':30});
 
-var year = 2022;// To be produced when we get more 2022 data 
+function makeTasks(year){
 var startDate = ee.Date(year+"-01-01");
 var endDate = ee.Date(year+"-12-31");
 
@@ -76,3 +76,5 @@ Export.map.toCloudStorage({
   region: saudi,
   writePublicTiles: true
 });
+}
+[2015,2016,2017,2018,2019,2020,2021].map(makeTasks)
