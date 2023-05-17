@@ -7,6 +7,9 @@ To start, we could display the following:
 - Mean LE, in W/m2
 - Max LE, in W/m2 
 
+When you click on run, you need to set:
+Use bucket default settings
+Keep access as is
 */
 var gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
     
@@ -23,7 +26,6 @@ var imageCollection = ee.ImageCollection("projects/halo-mewa/assets/tseb-landsat
 imageCollection=imageCollection.filterDate(startDate, endDate)
 //.filter(ee.Filter.inList("SPACECRAFT_ID", ["LANDSAT_8", "LANDSAT_9"]))
 .map(c.util.scale)
-print(year, imageCollection.first())
 var band_names=imageCollection.first().bandNames()
 function fix_band_names(img, good_names){
   // replace band names given by ee.Reducer (e.g. with _mean or _max appended)
@@ -77,4 +79,4 @@ Export.map.toCloudStorage({
   writePublicTiles: true
 });
 }
-[2015,2016,2017,2018,2019,2020,2021].map(makeTasks)
+[2015,2016,2017,2018,2019,2020,2021,2022].map(makeTasks)
