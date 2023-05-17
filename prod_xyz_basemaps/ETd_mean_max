@@ -38,7 +38,6 @@ maxImage=fix_band_names(maxImage, band_names).updateMask(1)
 // updateMask(1) is so that the "alpha" at coarser scales is always set to 1. I.e. don't use a transparency based on the amount of valid pixels.
 // We prefer to show the MEAN value at full opacity. 
 
-
 var et_bruno_colormap = ['86340c', 'c49e0d', 'f3fe34', 'aefeae', '11f9fd', '698afc', '5813fc',]
 
 var meanETdImage = meanImage
