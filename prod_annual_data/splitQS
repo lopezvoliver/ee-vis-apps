@@ -1,7 +1,6 @@
-/**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var fields = ee.FeatureCollection("projects/halo-mewa/assets/fields/tli-v0/2022"),
-    regions = ee.FeatureCollection("projects/halo-mewa/assets/regions-multi");
-/***** End of imports. If edited, may not auto-convert in the playground. *****/
+var fields = ee.FeatureCollection("projects/halo-mewa/assets/fields/tli-v0/2022");
+var regions = ee.FeatureCollection("projects/halo-mewa/assets/regions-multi");
+    
 // Pre-split the QS fields (computation is too large!!)
 // e.g. first export QS fields as large batches (property: S)
 // there are about 20,000 fields
