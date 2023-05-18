@@ -35,7 +35,7 @@ function do_export(n){
   Export.table.toAsset({
     collection: C,
     description: "split-QS-"+n+"-"+year,
-    assetId:"projects/halo-mewa/assets/fields/tli-v0/"+year+"-QS-"+n
+    assetId:"projects/halo-mewa/assets/fields/tli-v0/"+year+"-QS"+n
   })
 }
 [1,2,3,4].map(do_export) 
