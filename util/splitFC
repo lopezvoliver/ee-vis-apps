@@ -12,12 +12,11 @@ function index_dict_batch(fc, batch_size){
     var cellids_mod = cellids.map(assign_batch_id);
     return ee.Dictionary.fromLists(indices, cellids_mod);
 }
-function split_batch_collection(coll, batch_size){
+function split_batch_collection(coll, batch_size, property){
     /*
     Assigns a property "batch_id" representing a batch number
     to each element in coll (ee.FeatureCollection | ee.ImageCollection)
     */
-    var property="batch_id";
     var c_dict = index_dict_batch(coll, batch_size);
     function assign_batch_id(f){
         bidx = c_dict.get(f.get("system:index"))
