@@ -13,7 +13,7 @@ var f = fields.filterBounds(region).sort("uid")
 
 //print(f.size())
 //print(f.limit(5))
-var ff= ee.FeatureCollection(split.s(f, 5000, "S"))
+var ff= ee.FeatureCollection(split.s(f, 5000, "S", "uid"))
 // Export each collection separately -- we know how many we will have!
 // 2022: 19449 -- so there are 4 collections of ~5000 each
 function do_export(n){
