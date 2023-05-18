@@ -10,6 +10,7 @@ var regions = ee.FeatureCollection("projects/halo-mewa/assets/regions-multi");
 var split = require("users/oliverlopez/mewa-apps:util/splitFC")
 var region = regions.filter(ee.Filter.eq("region","QS"))
 var f = fields.filterBounds(region).sort("uid")
+
 //print(f.size())
 //print(f.limit(5))
 var ff= ee.FeatureCollection(split.s(f, 5000, "S"))
@@ -24,3 +25,22 @@ function do_export(n){
   })
 }
 [1,2,3,4].map(do_export)
+// When we process QS for other years, we can do the same.
+// This took 4 min to do and will save lots of computation
+// for the batch processing.. hopefully. 
+
+//e.g.:
+// Map.addLayer(
+//   ee.FeatureCollection("projects/halo-mewa/assets/fields/tli-v0/2022-QS-1")
+// )
+// Map.addLayer(
+//   ee.FeatureCollection("projects/halo-mewa/assets/fields/tli-v0/2022-QS-2")
+// )
+// Map.addLayer(
+//   ee.FeatureCollection("projects/halo-mewa/assets/fields/tli-v0/2022-QS-3")
+// )
+// Map.addLayer(
+//   ee.FeatureCollection("projects/halo-mewa/assets/fields/tli-v0/2022-QS-4")
+// )
+  
+  
