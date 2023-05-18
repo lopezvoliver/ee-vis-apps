@@ -1,10 +1,10 @@
 // SplitFC -- split_batch_collection
-function index_dict_batch(fc, batch_size){
+function index_dict_batch(fc, batch_size, sortby){
     /*
     Returns a dictionary mapping a feature collection
     to a list of integers divided by batch_size
     */
-    var indices = fc.sort('system:index').aggregate_array('system:index');
+    var indices = fc.sort(sortby).aggregate_array(sortby);
     var cellids = ee.List.sequence(1, indices.size());
     function assign_batch_id(element){
         return ee.Number(element).divide(batch_size).ceil();
@@ -12,14 +12,14 @@ function index_dict_batch(fc, batch_size){
     var cellids_mod = cellids.map(assign_batch_id);
     return ee.Dictionary.fromLists(indices, cellids_mod);
 }
-function split_batch_collection(coll, batch_size, property){
+function split_batch_collection(coll, batch_size, property, sortby){
     /*
     Assigns a property "batch_id" representing a batch number
     to each element in coll (ee.FeatureCollection | ee.ImageCollection)
     */
-    var c_dict = index_dict_batch(coll, batch_size);
+    var c_dict = index_dict_batch(coll, batch_size, sortby);
     function assign_batch_id(f){
-        var bidx = c_dict.get(f.get("system:index"))
+        var bidx = c_dict.get(f.get(sortby))
         return f.set(property,bidx)
     }
     return coll.map(assign_batch_id)
