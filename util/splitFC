@@ -19,7 +19,7 @@ function split_batch_collection(coll, batch_size, property){
     */
     var c_dict = index_dict_batch(coll, batch_size);
     function assign_batch_id(f){
-        bidx = c_dict.get(f.get("system:index"))
+        var bidx = c_dict.get(f.get("system:index"))
         return f.set({property: bidx})
     }
     return coll.map(assign_batch_id)
