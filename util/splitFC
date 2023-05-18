@@ -25,3 +25,4 @@ function split_batch_collection(coll, batch_size){
     }
     return coll.map(assign_batch_id)
 }
+exports.s=split_batch_collection
