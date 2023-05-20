@@ -1,0 +1,61 @@
+/*
+After join-fields-data, 
+here we export two raster tile layers
+We are exporting them for consistency with the app..
+however they might not be needed after all
+since we are doing vector tile layers now (and they can be styled with attributes)
+
+here we generate field-use and yearly_ET
+*/
+
+var colormaps = require("users/oliverlopez/util:colormaps")
+var et_palette=colormaps.palettes.bruno
+var empty=ee.Image().byte()
+var year=2022;
+
+var fields_with_data = ee.FeatureCollection("projects/halo-mewa/assets/fields/annual_"+year)
+  .map(function(f){
+  var geom_type=f.geometry().type()
+  return f.set({"geom_type":geom_type})
+  })
+  .filter(ee.Filter.eq("geom_type","Polygon"))
+  .map(function(f){
+    return f.set({"geom_type":null})
+  })
+
+var fills_et = empty.paint({
+  featureCollection: fields_with_data,
+  color:"ET",  // ET in mm/year
+})
+var image_et = fills_et.visualize({bands:["constant"], min:0, max:1500, palette:et_palette})
+
+var fills_use = empty.paint({
+  featureCollection: fields_with_data,
+  color:"fieldUse",  // fieldUse [0,1]
+})
+var image_fieldUse = fills_use.visualize({bands:["constant"], min:0, max:1,
+palette:["#ffffcc","#c2e699","#78c679","#31a354","#006837"]})
+
+
+Export.map.toCloudStorage({
+  image: image_et,
+  description: 'basemap_field_annual_et_'+year, 
+  path: 'field-et-annual/'+year, 
+  skipEmptyTiles: true, 
+  bucket: 'halo-mewa-tiles',  
+  //fileFormat: 'PNG',
+  maxZoom: 13,
+  writePublicTiles: true
+});
+
+
+Export.map.toCloudStorage({
+  image: image_fieldUse,
+  description: 'basemap_field_annual_use_'+year, 
+  path: 'field-use/'+year, 
+  skipEmptyTiles: true, 
+  bucket: 'halo-mewa-tiles',  
+  //fileFormat: 'PNG',
+  maxZoom: 13,
+  writePublicTiles: true
+});
