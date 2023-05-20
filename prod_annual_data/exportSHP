@@ -11,22 +11,16 @@ Note: label is the new style uid..
 function export_year(year){
 var fc = ee.FeatureCollection(
   "projects/halo-mewa/assets/fields/annual_"+year)
-// .map(function(f){
-//   //var geom_type=f.geometry().type()
-//   return ee.Feature(f.geometry(), { 
-//     label:f.get("uid"),   /// CHANGED label to uid! 
-//     area: area,
-//     useDays: f.get("season_mask_sum"),
-//     NDVI: f.get("NDVI_mean"),
-//     fieldUse: f.get("season_mask_mean"),
-//     ET: ET,
-//     ETm3: waterUse,
-//     geom_type:geom_type
-//   })
-// })
-//.filter(ee.Filter.notNull(["NDVI"])) // aready done in join-fields-data
-// above is not needed anymore!
+  .map(function(f){
+  var geom_type=f.geometry().type()
+  return f.set({"geom_type":geom_type})
+  })
+  .filter(ee.Filter.eq("geom_type","Polygon"))
+  .map(function(f){
+    return f.set({"geom_type":null})
+  })
 
+  
 Export.table.toCloudStorage({
   collection:fc,
   bucket: "mewa",
