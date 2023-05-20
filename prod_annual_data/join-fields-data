@@ -27,10 +27,9 @@ area: f.get("area"),
 useDays: f.get("fieldUseDays"),
 NDVI: f.get("NDVI"),
 fieldUse: f.get("fieldUse"),
-    ET: ET,
-    ETm3: waterUse,
-    
-    
+ET: f.get("ETy"),
+ETm3: f.get("ETy_CM")
+
 
 */
 // Get all featureCollections for one year:
