@@ -35,6 +35,7 @@ Export.table.toCloudStorage({
   description:"export-gs-fields-annual_data-geojson-"+year,
   fileFormat:"GeoJSON"
 })
+// GeoJSON needed for tippecanoe (generate vector tile layers)
 
 Export.table.toCloudStorage({
   collection:fc,
