@@ -35,7 +35,7 @@ var fc = ee.FeatureCollection(
   tippecanoe -z13 --output-to-directory 2015 --name "Field annual data 2015" --attribution "KAUST-MEWA project" --description "Field annual data 2015 v1" --maximum-zoom 13 --minimum-zoom 1 --no-tile-compression 2015-ETm3.geojson
   */
 Export.table.toCloudStorage({
-  collection:fc.select(["label","area","useDays","NDVI","fieldUse","ET","ETm3"]),
+  collection:fc.select(["label","area","useDays","NDVI","fieldUse","ET","ETm3","ftype"]),
   bucket: "mewa",
   fileNamePrefix: "fields/annual_data/"+year+"-ETm3",
   description:"export-gs-fields-annual_data-shp-"+year,
