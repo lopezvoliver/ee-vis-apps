@@ -1,0 +1,108 @@
+/*
+After applying the eeprod/tseb_ts.py and eeprod/tseb_agg.py process, 
+the following files were uploaded to 
+projects/halo-mewa/assets/fields/annual_data_processed 
+:
+"2022-AJ", "2022-EP", "2022-HL", "2022-MD",
+"2022-QS1", "2022-QS2", "2022-QS3", "2022-QS4",
+"2022-RD", "2022-TB"
+
+note that locally the files are stored in
+mewagee/data/f16D/2022/
+with the extension _Y.csv
+
+These csv files only contain the data for each field, i.e.:
+ETy, ETy_CM, NDVI, area, bare_cover, cloud_cover, date, fieldUse, fieldUseDays, uid
+
+Here we read all of these tables, look for each field geometry by uid
+from:
+projects/halo-mewa/assets/fields/tli-v0/2022
+
+and export the result in geoJSON and SHP formats to cloud storage. 
+
+Note: uid will be renamed to "label" and we will only export the following:
+
+label:f.get("uid"),   /// CHANGED label to uid! 
+area: f.get("area"),
+useDays: f.get("fieldUseDays"),
+NDVI: f.get("NDVI"),
+fieldUse: f.get("fieldUse"),
+    ET: ET,
+    ETm3: waterUse,
+    
+    
+
+*/
+// Get all featureCollections for one year:
+var asset_list = ee.data.listAssets("projects/halo-mewa/assets/fields/annual/")
+.assets;
+//.slice(0,2)  // For testing.
+// Note: the listASsets function is supposed to work with a filter,
+// but it doesn't.
+// However, the below mapped function will return a ee.FeatureCollection 
+// with properties "id" as the asset id, and year property from the asset.
+// we then use ee.Filter to do the filtering for us. 
+var list_of_fc = asset_list.map(function(l){
+  var asset_id = l.id;
+  var fc = ee.FeatureCollection(asset_id);
+  var year = fc.get("year");  // Get the year from the feature collection properties. 
+  // (which was set upon ingestion -- see the field16d_runs/util.bash script)
+  return ee.Feature(null,
+  {id: asset_id,
+   year: ee.Number(year)
+  });
+});
+
+function do_join_for_year(year_to_export){
+  var fY = ee.FeatureCollection(list_of_fc)
+  .filter(ee.Filter.eq("year", year_to_export));
+  var files_YEAR = fY.aggregate_array("id").getInfo(); // We will do a mapping in the client.
+  // Now work only on the year 2020:
+  // For each feature in ff, do the process
+  // to return a batch feature collection:
+  //print(files_2020)  // these are the files we will be working with,
+  // it is a subset of all the files in listAssets. 
+  
+  var field_delineation_asset_YEAR="projects/halo-mewa/assets/Saudi_ag_fields_li2022/all_fields_"+year_to_export;
+  var field_delineations = ee.FeatureCollection(field_delineation_asset_YEAR);
+  var data_cols = ["ETd_sum", "NDVI_mean", 
+  "bare_cover_mean", "cloud_cover_mean", 
+  "season_mask_mean", "season_mask_sum"];
+  
+  function join_data(file){
+  var fields_data_table = ee.FeatureCollection(file);
+  var filterByLabel = ee.Filter.equals({leftField:'label', rightField:'label'});
+  var joinByLabel = ee.FeatureCollection(
+    ee.Join.inner().apply(field_delineations, fields_data_table, filterByLabel)
+    );
+    function return_field_with_data(f){
+    var field_delineation = ee.Feature(f.get("primary"));
+    var field_data = ee.Feature(f.get("secondary"));
+    return field_delineation.copyProperties(field_data, data_cols);
+    }
+  var fields_with_data = joinByLabel.map(return_field_with_data);
+  return fields_with_data;
+  } // Function to apply to ONE file
+  var all = ee.FeatureCollection(files_YEAR.map(join_data)).flatten();
+  return all;
+}
+
+// var fc_join_2015 = do_join_for_year(2015);
+// var fc_join_2016 = do_join_for_year(2016);
+// var fc_join_2017 = do_join_for_year(2017);
+// var fc_join_2018 = do_join_for_year(2018);
+// var fc_join_2019 = do_join_for_year(2019);
+// var fc_join_2020 = do_join_for_year(2020);
+// var fc_join_2021 = do_join_for_year(2021);
+
+// Make the exports. 
+// Export.table.toAsset(fc_join_2015,"Join-all-2015","projects/halo-mewa/assets/fields/annual_2015");
+// Export.table.toAsset(fc_join_2016,"Join-all-2016","projects/halo-mewa/assets/fields/annual_2016");
+// Export.table.toAsset(fc_join_2017,"Join-all-2017","projects/halo-mewa/assets/fields/annual_2017");
+// Export.table.toAsset(fc_join_2018,"Join-all-2018","projects/halo-mewa/assets/fields/annual_2018");
+// Export.table.toAsset(fc_join_2019,"Join-all-2019","projects/halo-mewa/assets/fields/annual_2019");
+// Export.table.toAsset(fc_join_2020,"Join-all-2020","projects/halo-mewa/assets/fields/annual_2020");
+// Export.table.toAsset(fc_join_2021,"Join-all-2021","projects/halo-mewa/assets/fields/annual_2021");
+// Each task takes <10 min to complete. 
+var fc_join_2022 = do_join_for_year(2022);
+Export.table.toAsset(fc_join_2022,"Join-all-2022","projects/halo-mewa/assets/fields/annual_2022");
