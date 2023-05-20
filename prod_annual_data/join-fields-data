@@ -32,9 +32,8 @@ ETm3: f.get("ETy_CM")
 
 
 */
-var names = {
-  2022: ["AJ","EP","HL","MD","QS1","QS2","QS3","QS4","RD","TB"]
-}
+var region_names = ["AJ","EP","HL","MD","QS1","QS2","QS3","QS4","RD","TB"]
+// Every year we have the same, except for 2019 also has QS5
 
 
 // function do_join_for_year(year_to_export){
