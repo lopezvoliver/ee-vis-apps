@@ -54,7 +54,7 @@ function do_join_for_year(year_to_export){
   // // to return a batch feature collection:
   // //print(files_2020)  // these are the files we will be working with,
   // // it is a subset of all the files in listAssets. 
-  var files = getList(year_to_export)
+  var files_YEAR = getList(year_to_export)
   
   var field_delineation_asset_YEAR="projects/halo-mewa/assets/fields/tli-v0/"+year_to_export;
   var field_delineations = ee.FeatureCollection(field_delineation_asset_YEAR);
