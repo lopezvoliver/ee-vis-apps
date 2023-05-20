@@ -1,0 +1,48 @@
+/*
+After using users/oliverlopez/mewa-apps:prod_annual_data/join-fields-data,
+here we simply export to cloud storage as shape and geojson
+There is no need to change names, as it already contains the following attributes:
+
+ET, ETm3, NDVI, area, fieldUse, ftype, label, useDays
+
+Note: label is the new style uid..
+*/
+
+function export_year(year){
+var fc = ee.FeatureCollection(
+  "projects/halo-mewa/assets/fields/annual_data_v0/annual_"+year)
+.map(fieldUid.assign).distinct("uid")  // NEW CODE! use the distinct. 
+.map(function(f){
+  var area=ee.Number(f.get("area")) // in Hectares
+  var ET=ee.Number(f.get("ETd_sum")) // in mm/year
+  var waterUse=area.multiply(ET).multiply(scale_factor)
+  var geom_type=f.geometry().type()
+  return ee.Feature(f.geometry(), { 
+    label:f.get("uid"),   /// CHANGED label to uid! 
+    area: area,
+    useDays: f.get("season_mask_sum"),
+    NDVI: f.get("NDVI_mean"),
+    fieldUse: f.get("season_mask_mean"),
+    ET: ET,
+    ETm3: waterUse,
+    geom_type:geom_type
+  })
+})
+.filter(ee.Filter.notNull(["NDVI"]))
+//print(fc.limit(1))
+  /*
+  v0 annual data:
+  tippecanoe -z13 --output-to-directory 2015 --name "Field annual data 2015" --attribution "KAUST-MEWA project" --description "Field annual data 2015 v1" --maximum-zoom 13 --minimum-zoom 1 --no-tile-compression 2015-ETm3.geojson
+  */
+Export.table.toCloudStorage({
+  collection:fc.select(["label","area","useDays","NDVI","fieldUse","ET","ETm3"]),
+  bucket: "mewa",
+  fileNamePrefix: "fields/annual_data/"+year+"-ETm3",
+  description:"export-gs-fields-annual_data-shp-"+year,
+  //fileFormat:"GeoJSON",
+  fileFormat:"SHP",
+  selectors:["label","area","useDays","NDVI","fieldUse","ET","ETm3","ftype"]
+})
+}
+export_year(2022);
+//[2015,2016,2017,2018,2019,2020,2021,2022].map(export_year)
