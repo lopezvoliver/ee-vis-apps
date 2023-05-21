@@ -12,8 +12,7 @@ here we generate field-use and yearly_ET
 var colormaps = require("users/oliverlopez/util:colormaps")
 var et_palette=colormaps.palettes.bruno
 var empty=ee.Image().byte()
-var year=2021;
-
+function export_year(year){
 var fields_with_data = ee.FeatureCollection("projects/halo-mewa/assets/fields/annual_"+year)
   // .map(function(f){
   // var geom_type=f.geometry().type()
@@ -60,3 +59,5 @@ Export.map.toCloudStorage({
   maxZoom: 13,
   writePublicTiles: true
 });
+}
+[2015,2016,2017,2018,2019,2020,2021].map(export_year)
