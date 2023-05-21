@@ -11,14 +11,14 @@ Note: label is the new style uid..
 function export_year(year){
 var fc = ee.FeatureCollection(
   "projects/halo-mewa/assets/fields/annual_"+year)
-  .map(function(f){
-  var geom_type=f.geometry().type()
-  return f.set({"geom_type":geom_type})
-  })
-  .filter(ee.Filter.eq("geom_type","Polygon"))
-  .map(function(f){
-    return f.set({"geom_type":null})
-  })
+  // .map(function(f){
+  // var geom_type=f.geometry().type()
+  // return f.set({"geom_type":geom_type})
+  // })
+  // .filter(ee.Filter.eq("geom_type","Polygon"))
+  // .map(function(f){
+  //   return f.set({"geom_type":null})
+  // }) .// now integrated this into the join-fields-data script. 
 
   
 Export.table.toCloudStorage({
