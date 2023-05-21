@@ -77,7 +77,17 @@ function do_join_for_year(year_to_export){
   return fields_with_data;
   } // Function to apply to ONE file
   var all = ee.FeatureCollection(files_YEAR.map(join_data)).flatten()
-  .select(data_cols.concat(["ftype"]),renamed.concat(["ftype"]),true); //retainGeometry:true
+  .select(data_cols.concat(["ftype"]),renamed.concat(["ftype"]),true) //retainGeometry:true
+  // code added to remove non-Polygon geometries (problem for shapefiles!)
+  .map(function(f){
+  var geom_type=f.geometry().type()
+  return f.set({"geom_type":geom_type})
+  })
+  .filter(ee.Filter.eq("geom_type","Polygon"))
+  .map(function(f){
+    return f.set({"geom_type":null})
+  })
+  
   Export.table.toAsset(all,"Join-all-2022","projects/halo-mewa/assets/fields/annual_"+year_to_export);
 }
 
