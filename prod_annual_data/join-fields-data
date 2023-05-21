@@ -88,7 +88,7 @@ function do_join_for_year(year_to_export){
     return f.set({"geom_type":null})
   })
   
-  Export.table.toAsset(all,"Join-all-2022","projects/halo-mewa/assets/fields/annual_"+year_to_export);
+  Export.table.toAsset(all,"Join-all-"+year_to_export,"projects/halo-mewa/assets/fields/annual_"+year_to_export);
 }
 
 do_join_for_year(2021);
