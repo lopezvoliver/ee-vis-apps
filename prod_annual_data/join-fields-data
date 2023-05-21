@@ -76,27 +76,9 @@ function do_join_for_year(year_to_export){
   var fields_with_data = joinByLabel.map(return_field_with_data);
   return fields_with_data;
   } // Function to apply to ONE file
-  var all = ee.FeatureCollection(files_YEAR.map(join_data)).flatten();
-  return all.select(data_cols.concat(["ftype"]),renamed.concat(["ftype"]),true); //retainGeometry:true
+  var all = ee.FeatureCollection(files_YEAR.map(join_data)).flatten()
+  .select(data_cols.concat(["ftype"]),renamed.concat(["ftype"]),true); //retainGeometry:true
+  Export.table.toAsset(all,"Join-all-2022","projects/halo-mewa/assets/fields/annual_"+year_to_export);
 }
 
-// var fc_join_2015 = do_join_for_year(2015);
-// var fc_join_2016 = do_join_for_year(2016);
-// var fc_join_2017 = do_join_for_year(2017);
-// var fc_join_2018 = do_join_for_year(2018);
-// var fc_join_2019 = do_join_for_year(2019);
-// var fc_join_2020 = do_join_for_year(2020);
-// var fc_join_2021 = do_join_for_year(2021);
-var fc_join_2022 = do_join_for_year(2022);
-//print(fc_join_2022.limit(5))
-Export.table.toAsset(fc_join_2022,"Join-all-2022","projects/halo-mewa/assets/fields/annual_2022");
-
-// // Make the exports. 
-// // Export.table.toAsset(fc_join_2015,"Join-all-2015","projects/halo-mewa/assets/fields/annual_2015");
-// // Export.table.toAsset(fc_join_2016,"Join-all-2016","projects/halo-mewa/assets/fields/annual_2016");
-// // Export.table.toAsset(fc_join_2017,"Join-all-2017","projects/halo-mewa/assets/fields/annual_2017");
-// // Export.table.toAsset(fc_join_2018,"Join-all-2018","projects/halo-mewa/assets/fields/annual_2018");
-// // Export.table.toAsset(fc_join_2019,"Join-all-2019","projects/halo-mewa/assets/fields/annual_2019");
-// // Export.table.toAsset(fc_join_2020,"Join-all-2020","projects/halo-mewa/assets/fields/annual_2020");
-// // Export.table.toAsset(fc_join_2021,"Join-all-2021","projects/halo-mewa/assets/fields/annual_2021");
-// // Each task takes <10 min to complete. 
+do_join_for_year(2021);
