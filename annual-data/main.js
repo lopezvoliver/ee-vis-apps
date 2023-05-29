@@ -1,7 +1,7 @@
 // Modules
-var model = require('users/oliverlopez/mewa-prototype:annual-data/model.js');
-var components = require('users/oliverlopez/mewa-prototype:annual-data/components.js');
-var style = require('users/oliverlopez/mewa-prototype:annual-data/style.js');
+var model = require('users/oliverlopez/mewa-apps:annual-data/model.js');
+var components = require('users/oliverlopez/mewa-apps:annual-data/components.js');
+var style = require('users/oliverlopez/mewa-apps:annual-data/style.js');
 
 
 /*******************************************************************************
